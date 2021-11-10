@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>When Scripts Run</title>
+        <script type="text/javascript">
+            alert('I am in the head')
+        // Google doesn't like having script here in the head
+        //This is a method
+        
+        </script>
+    </head>
+    
+    <body>
+        <script>
+            window.alert('First thing in the body!')
+            //'.'lets you access a method (ie alert) then in ('') is the argument
+        </script>
+        <div>
+            Div 1 Yay!
+        </div>
+        <div>
+            Div 2 Now.
+        </div>
+        <script>
+            //let myDiv = document.getElementsByTagName('div'); //old way of selecting elements
+
+            let myDiv = document.querySelectorAll('div')//this grabs all the divs on the page
+
+            //alert(myDiv); //HTML NodeList shows in the alert box
+
+            alert(myDiv[1].innerHTML); //myDiv calls the variable, [1] selects the second div, .innerHTML shows the content of that div in the alert
+            // square brackets mean an array, starts with 0
+            
+        </script>
+
+
+    </body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="counter-div">0</div>
+    <input type="button" id="my-btn" value="+1">
+    <script type="text/javascript">
+    'use strict'; //makes sure that the proper rules are followed
+
+    //counter made with JS
+    let counter = 0; //keeps track of how many time I've clicked the button
+    let counterDiv = document.getElementById('counter-div');
+        counterDiv.innerHTML = counter;
+
+        function clickButton(){
+            //add one to counter each time button is clicked
+            counter = counter+1;
+            //counter += 1;
+            //counter++; //always adds 1
+            //update counterDiv content to reflect the count
+            counterDiv.innerHTML = counter;
+            //document.querySelector('#my-btn').value = counter;
+            if(counter < 5){
+                counterDiv.style.color = 'green';
+            } else{
+                counterDiv.style.color = 'red';
+            }
+            if(counter == 7 || counter == 10 || counter > 20){
+                counterDiv.style.color = 'purple';
+            }
+            if(isOdd(counter)){
+                counterDiv.style.backgroundColor = 'cornflowerblue';
+            }else{
+                counterDiv.style.backgroundColor = "#ccc";
+            }
+        }
+        function isOdd(num) {
+            if(num%6 == 1){
+                return true;
+            }else {
+                return false;
+            }
+        }
+    //EventListeners
+    //document.querySelector('#my-btn').onclick = clickButton;
+    document.querySelector('#my-btn').addEventListener('click', clickButton);
+    //document.querySelector('#my-btn').addEventListener('click', function(){
+        //anon function example:
+    //     counter++;
+    //     counterDiv.innerHTML = counter;
+    // });
+    
+    
+    </script>
+
+
+</body>
+</html>
