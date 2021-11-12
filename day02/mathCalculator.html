@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body{
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculator</h1>
+    <input type="text" id="value-one" value="0"><br>
+    <select id="my-operator">
+        <option value="">Please Choose</option>
+        <option value="add">Plus</option>
+        <option value="sub">Minus</option>
+        <option value="mul">Times</option>
+        <option value="div">Divided by</option>
+    </select>
+    <br>
+    <input type="number" id="value-two" value="0" step=".01">
+    <br><br>
+    <input type="button" id="do-math" value="Do Math">
+    <div id="my-total">Total: <span>0</span> </div>
+
+    <script>
+        'use strict';
+        //global variables
+        const doMathBtn = document.querySelector('#do-math');
+        
+        function doMath(){
+            //alert('clicked');
+
+            //get the value of value-one
+            let value1 = Number(document.querySelector('#value-one').value);
+            //get the value of value-two
+            let value2 = (document.querySelector('#value-two').value)*1;
+            //get the value of the operator selected
+            let op = document.querySelector('#my-operator').value;
+
+            let total = 0;
+            //preform calculation
+            console.log(value1, value2, op);
+
+            //check for NaN
+            if(isNaN(value1) || isNaN(value2)){
+                alert('You need to input a number not letters')
+            } else {
+
+                if(op == ''){
+                    alert('Choose and operator')
+                    return false; //stops the function
+                } else if(op == 'add'){
+                    total = value1 + value2
+                } else if(op == 'sub'){
+                    total = value1 - value2
+                } else if(op == 'mul'){
+                    total = value1 * value2
+                } else if(op == 'div') {
+                    total = value1 / value2
+                } else {
+                    total ='Shennanagans!'
+                }
+            }
+
+            document.querySelector('#my-total span').textContent = total;
+
+      }//end of function doMath
+
+        //event listener
+        doMathBtn.addEventListener('click', doMath); //no parenthesis
+
+    </script>
+</body>
+</html>

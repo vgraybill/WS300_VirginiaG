@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Div</title>
+    <style>
+        body{
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .wrapper {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            bottom: 10px;
+            right: 10px;
+            background-color: purple;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: baseline;
+            padding-top: 15px;
+        }
+        #my-box {
+            height: 50px;
+            width: 50px;
+            background-color: royalblue;
+            border: 1px solid pink;
+            position: absolute;
+        }
+        button {
+            width: 20%;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <button id="move-up">Move Up</button>
+        <button id="move-down">Move Down</button>
+        <button id="move-left">Move Left</button>
+        <button id="move-right">Move Right</button>
+        <div id="my-box"></div>
+    </div>
+
+    <script>
+        'use strict';
+        //global variables
+        let box = document.getElementById('my-box');
+        box.style.top = '115px';
+        box.style.left = '100px';
+
+        function moveUp(){
+            
+            const theTop = parseInt(box.style.top) //parseInt finds numeric value in the beginning eg 150px -> 150
+            box.style.top = (theTop - 10)+'px';
+        }
+        function moveLeft(){
+            
+            const theLeft = parseInt(box.style.left) 
+            box.style.left = (theLeft - 10)+'px';
+        }
+        function moveRight(){
+            
+            const theRight = parseInt(box.style.left) 
+            box.style.left = (theRight + 10)+'px';
+        }
+        function moveDown(){
+            
+            const theDown = parseInt(box.style.top) 
+            box.style.top = (theDown + 10)+'px';
+        }
+
+
+        //eventlisteners
+
+        document.querySelector('#move-up').onclick = moveUp;
+        document.querySelector('#move-left').onclick = moveLeft;
+        document.querySelector('#move-right').onclick = moveRight;
+        document.querySelector('#move-down').onclick = moveDown;
+
+    </script>
+</body>
+</html>
