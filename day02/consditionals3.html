@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Equality Example</title>
+        <style type="text/css">
+        body {
+            font-family: sans-serif;
+        }
+        </style>
+    </head>
+
+    <body>
+        <div class="hour">0</div>
+        <script>
+            'use strict';
+            
+            let thisTime = new Date(); //gets local time and day from machine
+
+            console.log(thisTime);
+
+            thisTime.setHours(13)
+
+            thisTime = thisTime.getHours(); //gets current hour value in military time (0-23)
+
+            console.log(thisTime);
+
+            let message = 'Good Evening';
+
+            if (thisTime < 12){
+                //checks if its before noon
+                message = 'Good Morning';
+            }
+
+            if (thisTime < 17 && thisTime > 11){
+                //checks if it's before 5pm
+                message = 'Good Afternoon';
+            }
+
+
+
+            const displayDiv = document.querySelector('.hour');
+
+            displayDiv.textContent = message;
+
+        </script>
+
+
+
+    </body>
+</html>

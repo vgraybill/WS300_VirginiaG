@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Equality Example</title>
+        <style type="text/css">
+        body {
+            font-family: sans-serif;
+        }
+        </style>
+    </head>
+
+    <body>
+        <div class="hour">0</div>
+        <script>
+            'use strict';
+            
+            let thisTime = new Date(); //gets local time and day from machine
+
+            console.log(thisTime);
+
+            thisTime.setHours(4)
+
+            thisTime = thisTime.getHours(); //gets current hour value in military time (0-23)
+
+            console.log(thisTime);
+
+            let message;
+
+            if(thisTime < 12 && thisTime > 6){
+                message = 'Good Morning, Nerd. Bet you regret staying up until midnight playing factorio.';
+            }else if (thisTime < 17 && thisTime >= 12) {
+                message = 'Good Afternoon, Sleepy. Is it nap time?'
+            }else if (thisTime >= 17 && thisTime < 21) {
+                message = 'Did you enjoy your nap?'
+            }else if (thisTime>3 && thisTime<=6){
+                message = 'Are you up early or going to bed late?'
+            }else {
+                message = 'What time is it? Why are you up so late?'
+            };
+
+            const displayDiv = document.querySelector('.hour');
+
+            displayDiv.textContent = message;
+
+        </script>
+
+
+
+    </body>
+</html>

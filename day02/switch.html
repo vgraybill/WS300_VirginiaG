@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Equality Example</title>
+        <style type="text/css">
+        body {
+            font-family: sans-serif;
+        }
+        </style>
+    </head>
+
+    <body>
+        <div class="hour">0</div>
+        <script>
+            'use strict';
+            
+            let thisTime = new Date(); //gets local time and day from machine
+
+            console.log(thisTime);
+
+            thisTime.setHours(13)
+
+            thisTime = thisTime.getHours(); //gets current hour value in military time (0-23)
+
+            console.log(thisTime);
+
+            let message = ''; //default message
+
+            switch(thisTime){ //comparing this time
+
+                case 5: 
+                case 6: 
+                case 7: 
+                case 8: 
+                case 9: 
+                case 10: 
+                case 11: 
+                message = "Good Morning!";
+                break;
+
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                message = 'Good Afternoon';
+                break;
+
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                    message = 'Good Evening';
+                    break;
+
+                default:
+                    message = 'Good Night!';
+            }//end switch
+
+
+
+            const displayDiv = document.querySelector('.hour');
+
+            displayDiv.textContent = message;
+
+        </script>
+
+
+
+    </body>
+</html>
