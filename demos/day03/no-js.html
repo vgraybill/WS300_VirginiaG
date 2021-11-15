@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No JS? In a JS class?</title>
+    <style>
+        body{
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+<p>JS is not running on this page</p>
+    </div>
+        <script type="text/javascript">
+            'use strict';
+            document.querySelectorAll('html').classList = 'js';
+        //  document.querySelectorAll('html').classList.remove('no-js');
+
+        document.querySelector('p').textContent= 'JavaScript IS running on this page'
+        document.querySelector('title').textContent = 'JS is running now'
+
+        </script>
+</body>
+</html>

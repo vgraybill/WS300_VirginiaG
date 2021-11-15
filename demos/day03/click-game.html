@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click  Game</title>
+    <style>
+        body{
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        #game-stage{
+            width: 400px;
+            height: 400px;
+            border: 5px solid #666;
+            position: relative;
+            background-color: rgb(168, 164, 170);
+            border-radius: 20px;
+        }
+        #click-square {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            height: 40px;
+            width: 40px;
+            border: 2px solid pink;
+            background-color: rgb(128, 41, 216);
+        }
+        .ui{
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ui">
+        Score: <span class="score">0</span> | Time Remaining: <span class="time">0</span>
+    </div>
+    <div id="game-stage">
+        <div id="click-square"></div>
+    </div>
+    <script>
+        /* 
+        we need: 
+        1. event listener tied to the box
+            -add one to the score, display new score
+            -move the box
+            -change the height and width
+            -change background color
+        2. Timer to count down
+            -set seconds to 10
+            -display update to seconds value
+        3. End game when the timer reaches 0
+        */
+        let score = 0; //stores the value of the current score
+        let seconds = 10; //stores the value of the number of seconds remaining
+        let timer; //storing space for our timer
+        let gameRunner = false;
+        //state
+
+        //html elements
+        const box = document.querySelector('#click-square'),
+            timeDisplay= document.querySelector('.time'),
+            scoreDisplay= document.querySelector('.score');
+
+        function setTime(){
+            //subtract 1 from seconds
+            seconds--
+            //update time display
+            timeDisplay.textContent = seconds
+            //check value of seconds
+            if(seconds==0){
+                alert('game over');
+                clearInterval(timer);
+                box.removeEventListener('click', moveBox);
+            }
+        }
+        
+        function moveBox(){
+           // alert('click');
+           //start timer
+           if(!gameRunner){
+                timer = setInterval(setTime, 1000);
+                gameRunner = true;
+            }
+           //add one to score
+           score++;
+           //update score display
+           scoreDisplay.textContent = score;
+           //reposition, resize and recolor box
+           
+            let newHeight = getRandInt(10,60),
+                newWidth = getRandInt(10,60),
+                newTop = getRandInt(20,380-newHeight),
+                newLeft= getRandInt(20, 380-newWidth);
+
+           //since the box is in the item clicked we can use this instead of box
+           this.style.top = newTop+'px';
+           this.style.left = newLeft+'px';
+           this.style.height = newHeight+'px';
+           this.style.width = newWidth+'px';
+           this.style.backgroundColor = genHex();
+           this.style.borderColor = genHex();
+           this.style.transform = 'rotate('+getRandInt(0,359)+'deg)';
+
+
+        };
+
+
+
+        //generate whole random integer
+
+        function getRandInt(min=1,max=100) {
+            return Math.floor(Math.random()*(max-min+1)) + min;
+        }
+
+        //function to generate random hex color value
+        function genHex(){
+            let hexValues = '0123456789ABCDEF';
+            hexValues = hexValues.split('');
+
+            console.log(hexValues)
+
+            let hexColor ='#';
+
+            for(let i=0; i < 6; i++){
+                let newVal = hexValues[getRandInt(0,15)];
+                hexColor += newVal;
+                console.log(hexColor);
+            }
+            return hexColor;
+        }
+
+        //event listener
+        box.addEventListener('click', moveBox);
+    </script>
+</body>
+</html>

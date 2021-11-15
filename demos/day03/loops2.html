@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More Loops</title>
+    <style>
+        body{
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="message"></div>
+    <div class="container">
+        <div>One</div>
+        <div>Two</div>
+        <div>Three</div>
+        <div>Four</div>
+        <div>Five</div>
+    </div>
+        <script type="text/javascript">
+            'use strict';
+            const messageDiv = document.querySelector('.message');
+
+            const myDivs = document.querySelectorAll('.container div');
+            console.log(typeof myDivs); //returns object
+            console.log(myDivs.constructor); //returns node list
+
+            let divArray = [...myDivs];
+            console.log(typeof divArray); //returns object
+            console.log(divArray.constructor); //returns array
+
+            //divArray = divArray.sort();
+
+            let message = 'For each:';
+
+            divArray.forEach(function(item){
+                message += '<div>Value '+item.textContent+'</div>'
+            })
+            messageDiv.innerHTML = message;
+
+        </script>
+</body>
+</html>
