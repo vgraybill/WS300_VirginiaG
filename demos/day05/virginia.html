@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>jQuery Test</title>
+</head>
+<body>
+	<div>
+		<p>This is a test for jQuery</p>
+		<p>Another paragraph</p>
+	</div>
+	<p>This should be selected with jQuery.</p>
+	<div>
+		<p>This is a second test for jQuery</p>
+		<p>Another paragraph 2</p>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+	<script type="text/javascript">
+		
+		let myVar = $('div+p');
+		console.log(myVar.text());
+
+	</script>
+
+</body>
+</html>

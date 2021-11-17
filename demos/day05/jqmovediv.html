@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JQuery Intro</title>
+    <style>
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        #move-box {
+            width: 50px;
+            height: 50px;
+            background-color: #abc123;
+            position: absolute;
+            top: 100px;
+            left: 100px;
+        }
+        .container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background-color: #123456;
+        }
+        .buttons {
+            padding: 20px;
+            text-align: center;
+            background-color: palevioletred;
+        }
+        button {
+            margin: 0 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="buttons">
+            <button id="move-up">Move Up</button>
+            <button id="move-down">Move Down</button>
+            <button id="move-left">Move Left</button>
+            <button id="move-right">Move Right</button>
+        </div>
+        <div id="move-box"></div>
+    </div>
+
+    
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<script>
+    'use strict';
+    const box = $('#move-box');
+
+    // $('#move-up').click( function(){
+    //     box.css({'top':'-=10'});
+    // })
+    // $('#move-down').click( function(){
+    //     box.css({'top':'+=10'});
+    // })
+    // $('#move-left').click( function(){
+    //     box.css({'left':'-=10'});
+    // })
+    // $('#move-right').click( function(){
+    //     box.css({'left':'+=10'});
+    // })
+
+    //one function to rule them all
+
+    $('.buttons').click( function (e) {
+        //e captures the event object
+        let button = e.target.id;
+        let newTop = 0;
+        let newLeft = 0;
+            switch(button){
+                case 'move-up':
+                newTop -=10;
+                break;
+
+                case 'move-down':
+                newTop +=10;
+                break;
+
+                case 'move-left':
+                newLeft -=10;
+                break;
+
+                case 'move-right':
+                newLeft +=10;
+                break;
+            }
+
+
+
+            let boxTop= box.position().top+=newTop;
+            let boxLeft= box.position().left+=newLeft;
+
+            if(boxTop < 70){
+                boxTop = 70;
+            }
+
+            if(boxLeft < 10){
+                boxLeft=10;
+            }
+
+            if(boxLeft > $('.container').width()-60) {
+                boxLeft = $('.container').width()-60
+            }
+
+            if(boxTop > $('.container').height()-60) {
+                boxTop = $('.container').height()-60
+            }
+
+            box.css({'top':boxTop, 'left':boxLeft})
+    })
+
+
+</script>
+
+<!-- custom script -->
+
+</body>
+</html>
