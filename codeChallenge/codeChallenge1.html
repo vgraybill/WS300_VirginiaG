@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Challenge 1</title>
+    <style>
+        div {
+            margin: 20px auto;
+            border: 2px solid rebeccapurple;
+            border-radius: 10px;
+            width: 100px;
+            height: 100px;
+        }
+        p {
+            padding-bottom: 50px;
+            font-size: 1.25rem;
+            color: rebeccapurple;
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        span {
+            font-weight: bold;
+        }
+        .blue {
+            background-color: cornflowerblue;
+        }
+        .red{
+            background-color: crimson;
+        }
+    </style>
+</head>
+<body>
+    <div id="color-change-2" class="blue"></div>
+    <p>Blue to Red to Blue to Red to Blue... etc.</p>
+
+    <div id="color-change" class="blue"></div>
+    <p>Switching between Random Hex Colors: <span class="one">0</span> and <span class="two">0</span></p>
+
+    <div id="forfun" class="blue"></div>
+    <p>Switching it up! Random Hex Color: <span class="three">0</span></p>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        'use strict';
+        let color1 = genHex();
+        let color2 = genHex();
+        $('#color-change').css({
+                        'background-color': color2
+        })
+
+        $('.one').text(color1)
+        $('.two').text(color2)
+        
+        $('#color-change').click( function(){
+
+            if($('#color-change').hasClass('blue')){
+                this.style.backgroundColor = color1;
+            $('#color-change.blue').removeClass('blue')
+                       .addClass('red');
+        }
+        else {
+            $('#color-change.red').attr('class', 'blue');
+            this.style.backgroundColor = color2;
+        }
+            })
+
+        
+        $('#color-change-2').click( function(){
+
+            if($('#color-change-2').hasClass('blue')){
+            $('#color-change-2.blue').removeClass('blue')
+                       .addClass('red');
+        }
+        else {
+            $('#color-change-2.red').attr('class', 'blue');
+        }
+            })
+
+        let firstRun = genHex()
+        $('.three').text(firstRun)    
+        $('#forfun')
+        .css({
+            'background-color':firstRun
+        })
+        .click( function(){
+            let thisTime = genHex()
+            this.style.backgroundColor = thisTime
+            $('.three').text(thisTime)
+            
+        });
+
+
+
+
+
+        //random hex colors
+
+        function getRandInt(min=1,max=100) {
+            return Math.floor(Math.random()*(max-min+1)) + min;
+        }
+
+        //function to generate random hex color value
+        function genHex(){
+            let hexValues = '0123456789ABCDEF';
+            hexValues = hexValues.split('');
+
+            console.log(hexValues)
+
+            let hexColor ='#';
+
+            for(let i=0; i < 6; i++){
+                let newVal = hexValues[getRandInt(0,15)];
+                hexColor += newVal;
+                console.log(hexColor);
+            }
+            return hexColor;
+        }
+
+
+
+    </script>
+</body>
+</html>
