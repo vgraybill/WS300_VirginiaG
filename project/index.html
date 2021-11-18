@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet" type="text/css">
+    <link href="reset.css" rel="stylesheet" type="text/css">
+   
+    <title>The Pixel Patch</title>
+</head>
+<body>
+    <header>
+        <!-- Navigation and logo live here -->
+        <h1>Game Logo Goes Here</h1>
+        <nav>
+            <ul>
+                <li>Home</li>
+                <li>Game Changes</li>
+                <li>About</li>
+        </ul>
+    </nav>
+    </header>
+
+    <main>
+        <!-- The game lives here -->
+        <section id="game-area">
+            <!-- this is the main game stage -->
+            <div id="ui">
+                <!-- this is the ui will be -->
+            </div>
+
+            <div id="decor-area">
+                <!-- this is the decoration pots will be -->
+
+            <div id="grow-area">
+                <!-- this is the growing patch -->
+                <!-- <div class="plot p1">
+                    <div class="econ-ui">
+                        <p>Buy</p>
+                        <p>Sell</p>
+                        <p>Growth <span>0</span>%</p>
+                    </div>
+                    <div class="plant"></div>
+                </div> -->
+                
+
+            </div>
+            </div>
+
+        </section>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        'use strict';
+
+        //populate the #grow-area with 10 equally sized plots of land
+
+        const growArea = document.querySelector('#grow-area'),
+            items =['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'],
+            theLength = items.length;
+        let i = 0;
+
+        let plot = '';
+
+        for(i = 0; i < theLength; i++){
+            plot += '<div class="plot '+items[i]+'"><div class="econ-ui"><p>Buy</p><p>Sell</p><p>Growth <span>0</span>%</p></div><div class="plant'+items[i]+'"></div></div>'
+        }
+        console.log(i)
+
+        growArea.innerHTML = plot
+
+    </script>
+</body>
+</html>

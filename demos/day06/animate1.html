@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animate 1</title>
+    <style>
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        #my-div {
+            position: relative;
+            width: 200px;
+            height: 100px;
+            box-sizing: border-box;
+            padding: 1.25rem;
+            background-color: cornflowerblue;
+            border: 1px solid purple;
+            font-size: 1rem;
+        }
+        button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="my-div">Animate Me~!</div>
+    <button id="right">Grow Right</button>
+    <button id="text">Grow Text</button>
+    <button id="move">Move Right</button>
+    <button id="all">All Properties</button>
+    <button id="move-left">come back</button>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        'use strict';
+        let myDiv = $('#my-div')
+
+        $('#right').on('click', function(){
+            //syntax for animate is: $(selector).animate({property:value}, duration, easing, callback)
+            myDiv.animate({'width':'+=50px'}, 1000, 'linear', function(){
+                console.log('I\'m done animating!') // '\' is an escape character so javascript knows we want an ' int our string
+            })
+        })
+
+        $('#text').on('click', function(){
+            myDiv.animate({'font-size':'+=.1rem'}, 500, 'linear');
+        })
+    
+        $('#move').on('click', function(){
+            myDiv.animate({'left':'+=100px'}, 1000);
+        })
+        $('#all').on('click', function(){
+            myDiv.animate({'left':'+=100px', 'font-size':'+=.1rem', 'width':'+=50px'}, 1000);
+            myDiv.animate({'width':'-=50px'}, 1000);
+        })
+        $('#move-left').on('click', function(){
+            myDiv.animate({'left':'-=30px','font-size':'-=.2rem'}, 1000);
+        })
+    
+    </script>
+    
+</body>
+</html>

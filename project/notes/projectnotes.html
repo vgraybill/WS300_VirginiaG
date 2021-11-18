@@ -1,0 +1,26 @@
+
+<script>
+//random game idea; make random number, check for random number, if random number is specific number, add class to plant to change it's apperence/make it rare/worth more money
+
+
+let goalAmt = 1000;
+let amt = timePassed;
+let flowerStage = 'url(empty.png)';
+let perc = amt/goalAmt;
+
+$('.econ-ui p span').text(Math.round(perc*100))
+
+if(perc = 1){
+    flowerStage = 'url(flower.png)'
+}else if(perc =< .999 && perc >= .665){
+    flowerStage = 'url(mid-stage.png)';
+}else if (perc >= .335 && perc < .665){
+    flowerStage = 'url(seedling.png)';
+} else if(perc > 0 && perc < .335 ) {
+    flowerStage = 'url(planted.png)';
+}
+
+$('.plant'+tobedetermined).css({'background':flowerStage})
+
+//Translate this to flower growth using background-url ^^^^^^^^^^^^^^^^
+</script>

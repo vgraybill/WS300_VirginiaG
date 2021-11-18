@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="styles.css" rel="stylesheet" type="text/css">
     <link href="reset.css" rel="stylesheet" type="text/css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+   
     <title>The Pixel Patch</title>
 </head>
 <body>
@@ -50,22 +50,25 @@
 
         </section>
     </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script type="text/javascript">
         'use strict';
 
         //populate the #grow-area with 10 equally sized plots of land
 
-        const growArea = document.querySelector('#grow-area'),
+        const growArea = $('#grow-area'),
             items =['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'],
             theLength = items.length;
 
-        let plot = '';
+        // let plot = '';
 
-        for(let i = 0; i < theLength; i++){
-            plot += '<div class="plot '+items[i]+'"><div class="econ-ui"><p>Buy</p><p>Sell</p><p>Growth <span>0</span>%</p></div><div class="plant"></div></div>'
+        for(i = 0; i < theLength; i++){
+            let plot = $('<div>').addClass(items[i]+' plot').html('<div class="econ-ui"><p>Buy</p><p>Sell</p><p>Growth <span>0</span>%</p></div><div class="plant"></div>')
+
+            growArea.append(plot)
         }
 
-        growArea.innerHTML = plot
+        // growArea.innerHTML = plot
 
     </script>
 </body>
