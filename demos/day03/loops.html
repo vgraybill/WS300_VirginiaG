@@ -31,59 +31,59 @@
                 message += '<div>value: '+items[i]+'</div>'
             } //since we are using let, the value of i doesn't exsist outside of these curly braces
         
-            otherMessage = '<br>For Loop Version 2:'
+            // otherMessage = '<br>For Loop Version 2:'
 
-            for(let i = items.length-1; i >= 0; i--){
-                otherMessage += '<div>index '+ i +' has a value of: '+items[i]+ '</div>';
-            }
+            // for(let i = items.length-1; i >= 0; i--){
+            //     otherMessage += '<div>index '+ i +' has a value of: '+items[i]+ '</div>';
+            // }
 
-            //while loop
-            let i = 0;
-            message = 'While Loop:';
+            // //while loop
+            // let i = 0;
+            // message = 'While Loop:';
 
-            while(i<theLength){
-                message += '<div>index: '+ i +' value of: '+items[i]+ '</div>';
-                i++
-            }
-            i=0;
+            // while(i<theLength){
+            //     message += '<div>index: '+ i +' value of: '+items[i]+ '</div>';
+            //     i++
+            // }
+            // i=0;
 
-            message = 'While Loop Version 2:'
+            // message = 'While Loop Version 2:'
 
-            while(items[i]){
-                //when there are no more values in the array the loop stops
-                message += '<div>index: '+ i +' value of: '+items[i]+ '</div>';
-                i++;
-            }
+            // while(items[i]){
+            //     //when there are no more values in the array the loop stops
+            //     message += '<div>index: '+ i +' value of: '+items[i]+ '</div>';
+            //     i++;
+            // }
 
-            message = '<br> For Each Array method: ';
+            // message = '<br> For Each Array method: ';
 
-            items.forEach( function (item, index){
-                message+= '<div>Value: '+item+', index:'+index+'</div>';
-            })
+            // items.forEach( function (item, index){
+            //     message+= '<div>Value: '+item+', index:'+index+'</div>';
+            // })
 
-            message = 'For.... in loop';
-            for(let item in items){
-                message += '<div>value:' +items[item]+' index '+item+'</div>'
-            }
-            message = 'For.... of loop';
-            for(let item of items){
-                message += '<div>value:' +item+'</div>'
-            }
+            // message = 'For.... in loop';
+            // for(let item in items){
+            //     message += '<div>value:' +items[item]+' index '+item+'</div>'
+            // }
+            // message = 'For.... of loop';
+            // for(let item of items){
+            //     message += '<div>value:' +item+'</div>'
+            // }
 
-            //do while runs the loop before checking the condition
+            // //do while runs the loop before checking the condition
 
-            i = 0;
+            // i = 0;
 
-            message = 'Do While Loop: '
+            // message = 'Do While Loop: '
 
-            do{
-                message += '<div> value: '+items[i]+'</div>'
-                i++;
-            }while(i<theLength)
+            // do{
+            //     message += '<div> value: '+items[i]+'</div>'
+            //     i++;
+            // }while(i<theLength)
             
             
 
-            messageDiv.innerHTML = message + otherMessage;
+            messageDiv.innerHTML = message
             
         
         
