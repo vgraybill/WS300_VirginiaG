@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Animate 1</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,100;1,500;1,900&display=swap');
+        </style>
+    <style>
         body {
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 100;
         }
         #my-div {
             position: relative;
@@ -46,7 +50,7 @@
         })
 
         $('#text').on('click', function(){
-            myDiv.animate({'font-size':'+=.1rem'}, 500, 'linear');
+            myDiv.animate({'font-size':'+=.1rem','font-weight':'200'}, 5000, 'linear');
         })
     
         $('#move').on('click', function(){

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            font-size: 1rem;
+
+        }
+        div{
+            width: 80px;
+            height: 80px;
+            background-color: darkblue;
+            border: 4px solid #fff;
+            float: left;
+            border-radius: 15px;
+        }
+        button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        #stop{
+            left: 100px;
+        }
+    </style>
+</head>
+<body>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        'use strict';
+        let globalId; //stores timer
+        let isAnimating = false;
+        let numBricks = 0; //how many bricks are on the page
+
+        let classArray = ['Luke', 'Virginia', 'Justin', 'Trish']
+
+        function genBricks() {
+            numBricks ++;
+            let mL = numBricks%2==1 ? 0 : 0;
+            $('<div>').appendTo('body').attr('id', numBricks).attr('class', classArray[numBricks%classArray.length]).css({'margin-left': mL}); //creates new div, appends it to the body, gives it an id the value of the current number of bricks
+            globalId = requestAnimationFrame(genBricks);
+        }
+
+        $('#start').on('click', function(){
+            if(!isAnimating){
+                globalId = requestAnimationFrame(genBricks);
+                isAnimating = true;
+                if(numBricks>=50){
+                    cancelAnimationFrame(globalId)
+                    isAnimating = false;
+                }
+            }
+        })
+
+        $('#stop').on('click', function(){
+            cancelAnimationFrame(globalId);
+            isAnimating = false;
+        })
+
+
+    </script>
+</body>
+</html>

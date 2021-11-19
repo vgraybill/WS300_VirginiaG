@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            font-size: 1rem;
+        }
+        #game-stage {
+            position: absolute;
+            top: 30px;
+            left: 10px;
+            bottom: 10px;
+            right: 10px;
+            background-color: #abcdef;
+            border: 1px solid black;
+            overflow: hidden;
+        }
+        .dragon {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            width: 50px;
+            height: 50px;
+            background-color: limegreen;
+        }
+        .flame {
+            width: 10px;
+            height: 4px;
+            background-color: crimson;
+            position: absolute;
+            top: 100px;
+            left: 100px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="game-stage">
+        <div class="dragon"></div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        'use strict';
+        const stage = $('#game-stage'),
+              dragon = $('.dragon');
+        let gameRunning = false,
+            speed = 6;
+        const dir = {
+                up:false,
+                down: false,
+                left: false,
+                right: false
+        }
+    
+        //event listeners
+        $(document).keydown( function(e){
+            /* e.which tells us which key got pressed
+                arrows: up:38, down:40, left:37, right:39
+                asdw: w:87, s:83, a:65, d:68
+            */
+           //console.log(dir)
+
+            if(e.which == 38 || e.which == 87){
+                dir.up = true;
+            }
+            if(e.which == 40 || e.which == 83){
+                dir.down = true;
+            }
+            if(e.which == 37 || e.which == 65){
+                dir.left = true;
+            }
+            if(e.which == 39 || e.which == 68){
+                dir.right = true;
+            }
+            //increase speed upon shift key
+            if(e.which == 16){
+                speed = 10;
+            }
+            //spacebar to shoot
+            if(e.which == 32){
+                console.log('Woosh')
+                shootFlame()
+            }
+        })
+        $(document).keyup( function(e){
+            /* e.which tells us which key got pressed
+                arrows: up:38, down:40, left:37, right:39
+                asdw: w:87, s:83, a:65, d:68
+            */
+            if(e.which == 38 || e.which == 87){
+                dir.up = false;
+            }
+            if(e.which == 40 || e.which == 83){
+                dir.down = false;
+            }
+            if(e.which == 37 || e.which == 65){
+                dir.left = false;
+            }
+            if(e.which == 39 || e.which == 68){
+                dir.right = false;
+            }
+
+            if(e.which == 16){
+                speed = 6;
+            }
+
+        })
+
+        function gameLoop(){
+            let newTop = 0, //stores the reserve how much to move our dragon
+                newLeft= 0;
+
+                if (dir.up){
+                    newTop-=speed;
+                }
+                if (dir.down){
+                    newTop+=speed;
+                }
+                if (dir.left){
+                    newLeft-=speed;
+                }
+                if (dir.right){
+                    newLeft+=speed;
+                }
+
+                const dTop = dragon.position().top,
+                      dLeft = dragon.position().left,
+                      dHeight = 50, //static
+                      dWidth = 50,
+                      sHeight = stage.height(), //dynamic
+                      sWidth = stage.width();
+
+
+                //checks values before we set them
+
+                if(dTop + newTop < 0){
+                    newTop=0;
+                    newTop -= dTop;
+                }
+                if(dLeft + newLeft < 0){
+                    newLeft=0;
+                    newLeft -= dLeft;
+                }
+
+                if(dTop+newTop+dHeight > sHeight){
+                    newTop=0;
+                    newTop+=(sHeight-dHeight-dTop);
+                }
+
+                if(dLeft+newLeft+dWidth > sWidth){
+                    newLeft=0;
+                    newLeft+=(sWidth-dWidth-dLeft);
+                }
+
+
+                      dragon.css({'top':'+='+newTop, 'left':'+='+newLeft});
+
+                      //setTimeout(gameLoop, 1000/30)
+                      window.requestAnimationFrame(gameLoop);
+
+       }
+       gameLoop();
+    //   setInterval(gameLoop, 1000/30); //30fps
+        
+       function shootFlame(){
+            let flame = $('<div>').addClass('flame');
+            //add coords relative to dragons cur pos
+            const dTop = dragon.position().top,
+                  dLeft = dragon.position().left;
+            let fTop = dTop+23,
+                fLeft = dLeft+70;
+            //apply the css to the flame
+            flame.css({'top':fTop, 'left':fLeft});
+            stage.append(flame); //or flame.appendTo(stage)
+            flame.animate({'left':stage.width()+100}, 1000, function(){
+                $(this).remove();
+            })
+
+       }
+    </script>
+</body>
+</html>
