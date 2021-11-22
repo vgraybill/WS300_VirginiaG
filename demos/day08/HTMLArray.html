@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>List of Students</h1>
+    <p>Justin</p>
+    <p>Virginia</p>
+    <p>Luke</p>
+    <p class="teacher">Trish</p>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+
+        let ps = document.querySelectorAll('p');
+        let pArray = [...ps];
+        console.log(pArray, pArray.constructor);
+        // console.log($('p'));
+        // console.log(document.querySelectorAll('p'));
+
+        $('p').each( function(i){
+            if($(this).hasClass('teacher')){
+                $(this).remove();
+            }else{
+                let name = $(this).text();
+                $(this).text( name + ' ' +i)
+            }
+
+
+        })
+
+
+
+
+    </script>
+</body>
+</html>

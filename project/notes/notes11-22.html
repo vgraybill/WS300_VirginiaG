@@ -1,0 +1,19 @@
+        
+    <script>
+        $('p').each( function(i){
+            if($(this).hasClass('teacher')){
+                $(this).remove();
+            }else{
+                let name = $(this).text();
+                $(this).text( name + ' ' +i)
+            }
+
+
+        })
+
+        //CAN we use this to seperate out the plant divs instead of what we've been trying? This would give all of them their own index number right off the bat, then we manipulate everything from those index numbers perhaps?
+        //Also, we shouold be able to add a class to a fully grown plant as well to remove it when we go to sell it
+
+        variable [i][letterinstring]
+
+    </script>
