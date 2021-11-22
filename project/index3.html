@@ -106,14 +106,11 @@
         let growRate = 1,
             goalAmt = 100;
         let amt = 0
-        let flowerStage
-        let timer =setInterval(  function timePassed(){
-            ++amt
-            flowerGrowth1()}, 1000);
+        
+      
 
-            function flowerGrowth1(){
-
-                $('div.p1 .econ-ui p span').text(Math.round(amt/goalAmt*100))
+            function initialGrowth(){
+                $('.econ-ui p span').text(Math.round(amt/goalAmt*100))
 
                 let perc = amt/goalAmt;
 
@@ -126,10 +123,8 @@
                 } else if(perc > 0 && perc < .35 ) {
                     flowerStage = 'yellow';
                 }
-                $('.plant.plant1').css({'background':flowerStage})
+                $('.plant plant1').css({'background':flowerStage})
             }
-
-            
 //how do I set a new timer on a new flower when its summoned on a certain plot?
            
 
@@ -149,41 +144,40 @@
                     targetPlot.prepend('<div class="plant plant'+plantNum[i]+'"></div>')
                     targetPlot.addClass('planted')
                 }
+
             }
     
+            function flowerGrowth(e){
+                $('.econ-ui p span').text(Math.round(amt/goalAmt*100))
+
+                let perc = amt/goalAmt;
+                let flowerStage
+
+                if(perc >= 1){
+                    flowerStage = 'lightblue'
+                }else if(perc <= .99 && perc >= .66){
+                    flowerStage = 'green';
+                }else if (perc >= .35 && perc < .66){
+                    flowerStage = 'lime';
+                } else if(perc > 0 && perc < .35 ) {
+                    flowerStage = 'yellow';
+                }
+                $('.plant'+plantNum[i]).css({'background':flowerStage})
+                
+            }
+
             $('.plot').on('click dblclick', function (e){
          //target spans with ids and sets their value to empty
          console.log(e);
          e.stopPropagation();
          i++;
-         buyPlant(e); 
+         buyPlant(e);
+         flowerGrowth(e); 
             })
-
-            if($('div.plot.p2').hasClass('planted')){
-                alert(wtf)
-                let amt2 = 0
-                let flowerStage2
-                let timer2 =setInterval(  function timePassed(){ ++amt2; flowerGrowth2() }, 1000);
-
-            function flowerGrowth2(){
-              
-                $('div.p2 .econ-ui p span').text(Math.round(amt2/goalAmt*100))
-
-                let perc2 = amt2/goalAmt;
-
-                if(perc2 >= 1){
-                    flowerStage2 = 'lightblue'
-                }else if(perc2 <= .99 && perc2 >= .66){
-                    flowerStage2 = 'green';
-                }else if (perc2 >= .35 && perc2 < .66){
-                    flowerStage2 = 'lime';
-                } else if(perc2 > 0 && perc2 < .35 ) {
-                    flowerStage2 = 'yellow';
-                }
-                $('.plant.plant2').css({'background':flowerStage2})
-            }
-        }
-
+            let timer =setInterval(  function timePassed(){
+            ++amt
+            flowerGrowth()
+        }, 1000);
 
 
         // }
