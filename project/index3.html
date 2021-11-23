@@ -50,15 +50,7 @@
 
             <div id="grow-area">
                 <!-- this is the growing patch -->
-                <div class="plot p1 planeted">
-                    <div class="econ-ui">
-                        <p>Buy</p>
-                        <p>Sell</p>
-                        <p>Growth <span>0</span>%</p>
-
-                    </div>
-                    <div class="plant plant1"></div>
-                </div>
+               
                 
             </div>
 
@@ -71,13 +63,13 @@
         //populate the #grow-area with 10 equally sized plots of land
 
         const growArea = $('#grow-area'),
-            items =['p2','p3','p4','p5','p6','p7','p8','p9','p10'],
+            items =['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10'],
             theLength = items.length;
 
         // let plot = '';
 
         for(let i = 0; i < theLength; i++){
-            let plot = $('<div>').addClass('plot '+items[i]).html('<div class="econ-ui"><p>Buy</p><p>Sell</p><p>Growth <span>0</span>%</p></div>')
+            let plot = $('<div>').attr('id', items[i]).addClass('plot').html('<div class="econ-ui"><p class="buy">Buy</p><p class="sell">Sell</p><p>Growth <span>0</span>%</p></div>').attr('data-amt', 0);
 
             growArea.append(plot)
         }
@@ -102,37 +94,45 @@
 
         // ------------------------------
         // ------------------------------
+        // $('.plot').each( function(i){
+        //     if($(this).hasClass('planted')){
+                
+        //     }
+        let growRate = 1,             
+            goalAmt = 50;
+//         let amt = 0
+         let flowerStage
+//         let timer =setInterval(  function timePassed(){
+//             ++amt
+//             initialGrowth('.plant.plant1')}, 1000);
 
-        let growRate = 1,
-            goalAmt = 100;
-        let amt = 0
-        
-      
+//             function initialGrowth(ele){
+//                 let growthText = $(ele).parent().find('span').text(Math.round(amt/goalAmt*100))
 
-            function initialGrowth(){
-                $('.econ-ui p span').text(Math.round(amt/goalAmt*100))
+//                 let perc = amt/goalAmt;
 
-                let perc = amt/goalAmt;
+//                 if(perc >= 1){
+//                     flowerStage = 'lightblue'
+//                 }else if(perc <= .99 && perc >= .66){
+//                     flowerStage = 'green';
+//                 }else if (perc >= .35 && perc < .66){
+//                     flowerStage = 'lime';
+//                 } else if(perc > 0 && perc < .35 ) {
+//                     flowerStage = 'yellow';
+//                 }
+//                 $(ele).css({'background':flowerStage})
+//             }
 
-                if(perc >= 1){
-                    flowerStage = 'lightblue'
-                }else if(perc <= .99 && perc >= .66){
-                    flowerStage = 'green';
-                }else if (perc >= .35 && perc < .66){
-                    flowerStage = 'lime';
-                } else if(perc > 0 && perc < .35 ) {
-                    flowerStage = 'yellow';
-                }
-                $('.plant plant1').css({'background':flowerStage})
-            }
-//how do I set a new timer on a new flower when its summoned on a certain plot?
+            
+// //how do I set a new timer on a new flower when its summoned on a certain plot?
            
 
-// How the hell do I get a plant on a specific plot
-        // if (gameMode = 1){
+// // How the hell do I get a plant on a specific plot
+//         // if (gameMode = 1){
 
-            let plantNum = ['1', '2', '3', '4', '5', '6', '7', '8','9']
-            let i = 0;
+             let plantNum = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+             let i = 0;
+
 
             function buyPlant(e){
                 //figure out which plot was clicked
@@ -143,55 +143,78 @@
                 if (!$(targetPlot).hasClass('planted')){
                     targetPlot.prepend('<div class="plant plant'+plantNum[i]+'"></div>')
                     targetPlot.addClass('planted')
-                }
+                    
 
+                    //flowerGrowth starts
+                
+                }
+                //
             }
     
-            function flowerGrowth(e){
-                $('.econ-ui p span').text(Math.round(amt/goalAmt*100))
+            $('.buy').on('click dblclick', function (e){
+                //target spans with ids and sets their value to empty
+                //console.log(e);
+                e.stopPropagation();
+                $(this).css({'visibility':'hidden'})
+                //i++;
+                let theID = $(this).parents('.plot').attr('id');
+                //$('#'+theID)
+                let jQEle = $('#'+theID); 
 
-                let perc = amt/goalAmt;
-                let flowerStage
+                theID = setInterval(  function(){
 
-                if(perc >= 1){
-                    flowerStage = 'lightblue'
-                }else if(perc <= .99 && perc >= .66){
-                    flowerStage = 'green';
-                }else if (perc >= .35 && perc < .66){
-                    flowerStage = 'lime';
-                } else if(perc > 0 && perc < .35 ) {
-                    flowerStage = 'yellow';
-                }
-                $('.plant'+plantNum[i]).css({'background':flowerStage})
-                
+                    //console.log(jQEle)
+                    let amount = (jQEle.attr('data-amt') * 1);
+                    //console.log('current amount', amount)    
+                    amount++;
+                    //console.log(amount);
+                    jQEle.attr('data-amt', amount);
+                    if(amount > 99){
+                        clearInterval(theID);
+                    }
+
+                    flowerGrowth(jQEle[0])
+               
+                }, 1000);
+                //buyPlant(e);
+
+            })
+
+            function flowerGrowth(ele){
+                //console.log(ele);
+                let amt = $(ele).attr('data-amt');
+                let amtText = Math.round(amt/goalAmt*100)/2
+                let growthText = $(ele).find('span').text(amtText)
+
+                if(amtText >= 100){
+                     flowerStage = 'lightblue';
+                     $(ele).find('.sell').css({'visibility':'visible'})
+                 }else if(amtText <= 99 && amtText >= 66){
+                     flowerStage = 'green';
+                 }else if (amtText >= 35 && amtText < 66){
+                     flowerStage = 'lime';
+                 } else if(amtText > 0 && amtText < 35 ) {
+                     flowerStage = 'yellow';
+                 }
+                $(ele).css({'background':flowerStage})
             }
 
-            $('.plot').on('click dblclick', function (e){
-         //target spans with ids and sets their value to empty
-         console.log(e);
-         e.stopPropagation();
-         i++;
-         buyPlant(e);
-         flowerGrowth(e); 
-            })
-            let timer =setInterval(  function timePassed(){
-            ++amt
-            flowerGrowth()
-        }, 1000);
+        
 
 
-        // }
-        // if(hasPlant == false){
-        //     //show buy button in shop mode
-        //     //show cost of new plant to grow in shop mode
-        // }
-        //  if (hasPlant == true && plantGrowth = 1) { //plant growth = 100% grown, figure out numeric value
-        //      //show sell button in shop mode
-        //      //show how much the plant will sell for
-        //      //show growth meter
-        //  } else {
-        //      //show growth meter
-        //  }
+
+//         // }
+//         // if(hasPlant == false){
+//         //     //show buy button in shop mode
+//         //     //show cost of new plant to grow in shop mode
+//         // }
+//         //  if (hasPlant == true && plantGrowth = 1) { //plant growth = 100% grown, figure out numeric value
+//         //      //show sell button in shop mode
+//         //      //show how much the plant will sell for
+//         //      //show growth meter
+//         //  } else {
+//         //      //show growth meter
+//         //  }
 
 
     </script>

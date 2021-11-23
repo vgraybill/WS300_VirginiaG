@@ -60,3 +60,7 @@ body {
     height: 155px;
     margin: 0 auto;
 }
+
+.sell{
+    visibility: hidden;
+}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Store List</title>
+	<style type="text/css">
+		body{
+			font-family: Verdana;
+            font-size: 1.25rem;
+            margin: 0 auto;
+		}
+        .strike {
+            text-decoration: line-through;
+        }
+        h1 {
+            text-align: center;
+        }
+        input {
+            display: block;
+            height: 40px;
+            font-size: 1rem;
+            margin: 0 auto 5px;
+        }
+        .button {
+            background-color: #baf;
+            border-radius: 10px;
+            color: white;
+            padding: 10px;
+            width: fit-content;
+            cursor: pointer;
+            line-height: 2rem;
+            margin: 0 auto;
+
+        }
+        .wrapper {
+            margin: 0 auto;
+            width: 500px;
+        }
+    
+	</style>
+
+</head>
+<body>
+<!-- stuff to manipulate goes here -->
+<div class="wrapper">
+    <h1>Store List</h1>
+    <ul class="list">
+        <!-- No li here -->
+    </ul>
+    <input type="text" placeholder="Item" class="new-item" />
+    <input type="number" placeholder="# of items" class="quantity" />
+    <div class="button add">Add Item</div>
+</div>
+
+<!-- jquery! -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!-- any jQ Plugins go here -->
+<script type="text/javascript">
+	'use strict';
+    const storeList = []; //empty array
+
+    $('.add').click( function(){
+        let innerArray = [];
+
+        let newItem = $('.new-item').val();
+            newItem = newItem.trim().toLowerCase(); //removes whitespace around text, puts it all to lowercase for sorting purposes
+
+        if(newItem != ''){
+            var quantity = $('.quantity').val();
+            
+            if (quantity == 0 || isNaN(quantity) || quantity == ''){
+                quantity = 1;
+            }
+            innerArray.push(newItem); 
+            innerArray.push(quantity);
+            innerArray.push(false);
+            //newItem = quantity+' - '+newItem;
+
+            storeList.push(innerArray);
+            storeList.sort();
+
+            $('.list').text('');
+
+            //take store list aray and set an li for each item, append it to the ul
+            for(let i=0; i<storeList.length; i++){
+                let theText = storeList[i][0];
+                let theQuantity = storeList[i][1];
+                let strike = storeList[i][2];
+                let newLi = $('<li>').text(theText+' - '+theQuantity).appendTo('.list');
+
+                if(strike){
+                    newLi.addClass('strike')
+                }
+
+                newLi.click( function(){
+                    strikeItem(this);
+                })
+            }
+
+
+
+        }//end if newItem has value
+        else{
+            alert('Nothing was added, please type an item')
+        }
+    })
+
+    function strikeItem(theItem) {
+        theItem = $(theItem);
+        theItem.addClass('strike');
+
+        let theText = theItem.text();
+            theText = theText.split(' - ')[0];
+            
+        for(let i = 0; i < storeList.length; i++){
+            if(theText == storeList[i][0]){
+                storeList[i][2]=true;
+            }
+
+        console.log(storeList[i])
+        }
+    }
+    $('.clear').click( function(){
+        storeList = [];
+        $('list').text('');
+
+    })
+
+    $(document).keydown( function(e){
+        if(e.which == 13){
+            $('.add').trigger('click');
+        }
+    })
+
+</script>
+</body>
+</html>
