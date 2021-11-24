@@ -1,10 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Varela+Round&display=swap');
+
+/* 
+font-family: 'Fredoka One', cursive;
+font-family: 'Varela Round', sans-serif; 
+*/
+
 
 *, *::before, *::after {
     box-sizing: border-box;
    }
 
 body {
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+    font-family:'Varela Round', sans-serif
 }
 .flex{
     display: flex;
@@ -17,6 +24,7 @@ body {
     margin: 0 auto;
 }
 #ui {
+    font-family: 'Fredoka One', cursive;
     width: 950px;
     height: 50px;
     background-color: blanchedalmond;
@@ -55,6 +63,7 @@ body {
     background: aliceblue;
 }
 #grow-area {
+    font-family: 'Fredoka One', cursive;
     width: 950px;
     height: 350px;
     background-color: rgb(102, 72, 44);
@@ -74,11 +83,23 @@ body {
     text-align: center;
     position: absolute;
     top: 90px;
-    left:45px;
+    left:20px;
 }
 .plot .econ-ui p {
     padding-bottom: 8px;
     font-size: 1.25rem;
+}
+.plot .growth {
+    height: 10px;
+    width: 150px;
+    background: #fab;
+    text-align: left;
+}
+.growth span {
+    width:0%;
+    height: 10px;
+    background-color: greenyellow;
+    display: block;
 }
 .plant1 {
     background-color: aliceblue;

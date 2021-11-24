@@ -85,33 +85,43 @@
 
         //CODE FOR THE UI
 
-        let playerCoins = 100;
+        let playerCoins = 1000;
         $('#player-coins p').text(playerCoins)
         let seconds = 0;
         let minutes = 0;
         let hours = 0;
+        let currenttime=0;
        
-        let howLong = setInterval( function(){
-           seconds++;
-           if(seconds>=60){
-                seconds=seconds-60;
-                minutes++
-            }
-            if(minutes==60){
-                minutes=minutes-60;
-                hours++
-            }
-            if (seconds<10){
-                seconds='0'+seconds;
-            }
-            //if (minutes<10 && minutes>0){
-            //    minutes='0'+minutes;
-            //}
-            if (minutes==0){
-                minutes = '00'
-            }
-           $('#universal-timer p').text(hours+' : '+minutes+' : '+seconds)
-        }, 1000);
+        let howLong = setInterval( function (){
+        //add 1 to currenttime
+            currenttime++;
+    
+    //update clockface with new time    
+    //clockface.innerHTML = currenttime;
+    //change to formatted time later
+        
+    //convert seconds to minutes and seconds
+        //Math.floor rounds down to a whole number
+
+//   show this here at first then place in timeFormat
+            var hours = Math.floor((currenttime/60)/60);
+       
+            var minutes = Math.floor((currenttime/60)%60);
+                if(minutes < 10){
+                minutes = '0'+minutes;
+                
+           }
+
+       //% remainder of number divided
+            var seconds = currenttime%60;
+                if(seconds < 10){
+                seconds = '0'+seconds;
+           
+           }
+       
+    $('#universal-timer p').text(hours+':'+ minutes +':'+seconds)
+    
+    }, 1000)//end timerTick()
 
         
 
@@ -180,7 +190,7 @@
                 let goalAmt = $(ele).attr('data-goal');
                 let amt = $(ele).attr('data-amt');
                 let amtText = Math.round(amt/goalAmt*100)
-                let growthText = $(ele).find('span').text(amtText)
+                let growthText = $(ele).find('span').css({'width' : amtText+'%'})
 
                 if(amtText >= 100){
                      flowerStage = '#baf';
@@ -340,7 +350,6 @@
                 let amount = $(this).attr('data-amt')
                 let goalAmt = ($(this).attr('data-goal')*1)
                 let amtText = Math.round(amount/goalAmt*100)
-                let growthText = $(ele).find('span').text(amtText)
                 console.log(amount)
                 amount = amount*1
                 $(this).attr('data-amt', amount)
