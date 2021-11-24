@@ -197,11 +197,15 @@
                 let theID = $(this).parents('.plot').attr('id');
                 $(this).css({'visibility':'hidden'})
 
+                // if ($('.buyplant').css({'visibility':'visible'})){
+                    
+                // } )
+
                 $('#plant1').on('click', function(e){ 
             
                     if (playerCoins >= 100){
                         let jQEle = $('#'+theID);
-                        jQEle.attr('data-goal', 20) 
+                        jQEle.attr('data-goal', 40) 
                         let goalAmount = (jQEle.attr('data-goal')*1);
                         console.log(goalAmount)
 
@@ -217,7 +221,7 @@
                                 $(jQEle).addClass('full-grown1')
                             }
                             flowerGrowth1(jQEle[0])
-                            }, 1000);
+                            }, 500);
 
                         buyPlant1(jQEle[0]);
                         
@@ -244,7 +248,7 @@
                     console.log(e)
                     if (playerCoins >= 300){
                         let jQEle = $('#'+theID);
-                        jQEle.attr('data-goal', 50) 
+                        jQEle.attr('data-goal', 100) 
                         let goalAmount = (jQEle.attr('data-goal')*1);
                         console.log(goalAmount)
 
@@ -260,7 +264,7 @@
                                 $(jQEle).addClass('full-grown2')
                             }
                             flowerGrowth2(jQEle[0])
-                            }, 1000);
+                            }, 500);
 
                         buyPlant2(jQEle[0]);
                         playerCoins=playerCoins-300;
@@ -321,14 +325,26 @@
 
             })
 
-            $('#p1').on('click', function(ele){
+
+
+            $('.plot').on('click', function(ele){
                 let amount = $(this).attr('data-amt')
                 let goalAmt = ($(this).attr('data-goal')*1)
                 let amtText = Math.round(amount/goalAmt*100)
                 let growthText = $(ele).find('span').text(amtText)
                 console.log(amount)
-                amount = amount*1+1
+                amount = amount*1
                 $(this).attr('data-amt', amount)
+                if (minutes>=5){
+                    amount=amount+5;
+                    $(this).attr('data-amt', amount)
+                } else if (minutes >= 10){
+                    amount = amount+10;
+                    $(this).attr('data-amt', amount)
+                } else {
+                    amount = amount+3
+                $(this).attr('data-amt', amount)
+                }
             })
 
 //make UI toggle next!
