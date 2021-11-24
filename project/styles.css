@@ -6,6 +6,10 @@
 body {
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
+.flex{
+    display: flex;
+}
+
 #game-area {
     width: 1000px;
     height: 600px;
@@ -19,14 +23,36 @@ body {
     margin: 0 auto;
     position: relative;
     top: 25px;
+    justify-content: space-around;
 }
-#decor-area {
+#ui div{
+    width: 30%;
+    background: #fab;
+    font-size: 1.5rem;
+}
+#ui div p {
+    padding-left: 20px;
+}
+#buy-area {
     width: 950px;
     height: 100px;
     background-color: green;
     margin: 0 auto;
     position: relative;
     top: 50px;
+    display: flex;
+}
+.buyplant {
+    width: 100px;
+    height: 70px;
+    margin: 10px 0 5px 10px;
+    background: aliceblue;
+    visibility: hidden;
+}
+.buyplant div {
+    width: 100px;
+    height: 70px;
+    background: aliceblue;
 }
 #grow-area {
     width: 950px;
@@ -54,8 +80,14 @@ body {
     padding-bottom: 8px;
     font-size: 1.25rem;
 }
-.plant {
+.plant1 {
     background-color: aliceblue;
+    width: 170px;
+    height: 155px;
+    margin: 0 auto;
+}
+.plant2 {
+    background-color: #fab;
     width: 170px;
     height: 155px;
     margin: 0 auto;

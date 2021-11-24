@@ -139,9 +139,10 @@
                 //check to see if has plant
                 //add plant when clicked
                 var targetPlot = $( e.target );
+                    targetPlot = targetPlot.parents('.plot')
 
                 if (!$(targetPlot).hasClass('planted')){
-                    targetPlot.prepend('<div class="plant plant'+plantNum[i]+'"></div>')
+                    targetPlot.append('<div class="plant"></div>')
                     targetPlot.addClass('planted')
                     
 
@@ -152,7 +153,6 @@
             }
     
             $('.buy').on('click dblclick', function (e){
-                //target spans with ids and sets their value to empty
                 //console.log(e);
                 e.stopPropagation();
                 $(this).css({'visibility':'hidden'})
@@ -176,7 +176,7 @@
                     flowerGrowth(jQEle[0])
                
                 }, 1000);
-                //buyPlant(e);
+                buyPlant(e);
 
             })
 
@@ -196,7 +196,7 @@
                  } else if(amtText > 0 && amtText < 35 ) {
                      flowerStage = 'yellow';
                  }
-                $(ele).css({'background':flowerStage})
+                $(ele).children('.plant').css({'background':flowerStage})
             }
 
         
