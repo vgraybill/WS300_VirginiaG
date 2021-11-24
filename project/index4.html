@@ -321,6 +321,16 @@
 
             })
 
+            $('#p1').on('click', function(ele){
+                let amount = $(this).attr('data-amt')
+                let goalAmt = ($(this).attr('data-goal')*1)
+                let amtText = Math.round(amount/goalAmt*100)
+                let growthText = $(ele).find('span').text(amtText)
+                console.log(amount)
+                amount = amount*1+1
+                $(this).attr('data-amt', amount)
+            })
+
 //make UI toggle next!
 //sparkles when the UI is toggled off?
 //so much fun!
