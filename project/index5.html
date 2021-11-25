@@ -336,7 +336,7 @@
                     $(this).css({'visibility':'hidden'});
                     $(this).siblings('.buy').css({'visibility':'visible'});
                     $(jQEle).attr('data-amt', 0);
-                    $(this).siblings('p').find('span').text('0');
+                    $(this).siblings('div').find('span').css({'width': 0})
                     playerCoins=playerCoins+500;
                     $('#player-coins p').text(playerCoins)
                     //$(jQEle).childen('div').remove();

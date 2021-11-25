@@ -11,7 +11,9 @@ font-family: 'Varela Round', sans-serif;
    }
 
 body {
-    font-family:'Varela Round', sans-serif
+    font-family:'Varela Round', sans-serif;
+    color : white;
+    letter-spacing: .15rem;
 }
 .flex{
     display: flex;
@@ -19,8 +21,8 @@ body {
 
 #game-area {
     width: 1000px;
-    height: 600px;
-    background-color: rgb(93, 223, 255);
+    height: 700px;
+    background:url('img/background.png');
     margin: 0 auto;
 }
 #ui {
@@ -36,7 +38,7 @@ body {
 #ui div{
     width: 30%;
     background: #fab;
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 #ui div p {
     padding-left: 20px;
@@ -64,52 +66,63 @@ body {
 }
 #grow-area {
     font-family: 'Fredoka One', cursive;
-    width: 950px;
+    width: 800px;
     height: 350px;
-    background-color: rgb(102, 72, 44);
+    background: url(img/growarea.png);
     margin: 0 auto;
     position: relative;
-    top: 75px;
+    top: 100px;
     display: flex;
     flex-wrap: wrap;
 }
 .plot {
-    width: 190px;
+    width: 160px;
     height: 175px;
-    background-color: brown;
     position: relative;
 }
 .plot .econ-ui {
     text-align: center;
     position: absolute;
     top: 90px;
-    left:20px;
+    left:15px;
 }
 .plot .econ-ui p {
     padding-bottom: 8px;
-    font-size: 1.25rem;
+    font-size: 2rem;
 }
 .plot .growth {
     height: 10px;
-    width: 150px;
+    width: 130px;
     background: #fab;
     text-align: left;
+    position: relative;
+    top: -15px;
+    border: 1px solid white;
+}
+.sell {
+    position: relative;
+    top: -35px;
 }
 .growth span {
     width:0%;
     height: 10px;
     background-color: greenyellow;
     display: block;
+    max-width: 130px;
+    border: 1px solid white;
+    position: relative;
+    top:-1px;
+    
 }
 .plant1 {
     background-color: aliceblue;
-    width: 170px;
+    width: 150px;
     height: 155px;
     margin: 0 auto;
 }
 .plant2 {
     background-color: #fab;
-    width: 170px;
+    width: 150px;
     height: 155px;
     margin: 0 auto;
 }

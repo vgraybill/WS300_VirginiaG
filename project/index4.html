@@ -147,10 +147,10 @@
                 let amt = $(ele).attr('data-amt');
                 let amtText = Math.round(amt/goalAmt*100)
                 let growthText = $(ele).find('.growth span').css({'width' : amtText+'%'})
-
                 if(amtText >= 100){
                      flowerStage = 'lightblue';
                      $(ele).find('.sell').css({'visibility':'visible'})
+                     
                  }else if(amtText <= 99 && amtText >= 66){
                      flowerStage = 'green';
                  }else if (amtText >= 35 && amtText < 66){
@@ -201,7 +201,7 @@
 //vvvvvvvvvvvvvvvvvvvv Event Listeners vvvvvvvvvvvvvvvvvvvvvvvvv
     
             $('.buy').on('click dblclick', function (e){
-                console.log(e);
+                //console.log(e);
                 $('.buyplant').css({'visibility':'visible'})
                 let theID = $(this).parents('.plot').attr('id');
                 $(this).css({'visibility':'hidden'})
@@ -216,7 +216,7 @@
                         let jQEle = $('#'+theID);
                         jQEle.attr('data-goal', 40) 
                         let goalAmount = (jQEle.attr('data-goal')*1);
-                        console.log(goalAmount)
+                        //console.log(goalAmount)
 
                         let timer = setInterval(  function(){
 
@@ -228,6 +228,7 @@
                                 clearInterval(timer);
                                 $(jQEle).removeClass('planted')
                                 $(jQEle).addClass('full-grown1')
+
                             }
                             flowerGrowth1(jQEle[0])
                             }, 500);
@@ -254,12 +255,12 @@
 
                 $('#plant2').on('click', function(e){ 
             
-                    console.log(e)
+                    //onsole.log(e)
                     if (playerCoins >= 300){
                         let jQEle = $('#'+theID);
                         jQEle.attr('data-goal', 100) 
                         let goalAmount = (jQEle.attr('data-goal')*1);
-                        console.log(goalAmount)
+                        //e.log(goalAmount)
 
                         let timer = setInterval(  function(){
 
@@ -301,7 +302,7 @@
                     jQEle = '#'+theID;
 
                 if ($(this).parents('.plot').hasClass('full-grown1')){
-                    console.log(this)
+                    //console.log(this)
 
                     $(this).parents('.plot').removeClass('full-grown1');
                     $(jQEle).find('.plant1').remove();
@@ -318,16 +319,18 @@
 
 
                     
-                } else if ($(this).parents('.plot').hasClass('full-grown2')){
-                    console.log(this)
+                } 
+                if ($(this).parents('.plot').hasClass('full-grown2')){
+                    //console.log(this)
 
-                    $(this).parents('.plot').removeClass('full-grown2');
-                    $(jQEle).find('.plant2').remove();
+                    $(this).parents('.plot').removeClass('full-grown1');
+                    $(jQEle).find('.plant1').remove();
                     $(this).css({'visibility':'hidden'});
                     $(this).siblings('.buy').css({'visibility':'visible'});
                     $(jQEle).attr('data-amt', 0);
-                    $(this).siblings('p').find('span').text('0');
-                    playerCoins=playerCoins+500;
+                    $(this).siblings('div').find('span').css({'width': 0})
+
+                    playerCoins=playerCoins+200;
                     $('#player-coins p').text(playerCoins)
                     //$(jQEle).childen('div').remove();
                 }
@@ -341,8 +344,9 @@
                 let goalAmt = ($(this).attr('data-goal')*1)
                 let amtText = Math.round(amount/goalAmt*100)
                 let growthText = $(ele).find('span').text(amtText)
-                console.log(amount)
+                //console.log(amount)
                 amount = amount*1
+
                 $(this).attr('data-amt', amount)
                 if (minutes>=5){
                     amount=amount+5;
