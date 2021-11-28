@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .butts {
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="button1">Button <span>1</span></div>
+    <div class="butts">
+        <div id="button2">Button 2</div>
+        <div id="button3">Button 3</p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        class plant {
+            constructor(name,growRate,buyPrice, sellPrice, growStage1, growStage2, growStage3, fullGrown) {
+                this.type=name;
+                this.growRate= growRate;
+                this.buy= buyPrice;
+                this.sell = sellPrice;
+                this.grow1 = growStage1;
+                this.grow2 = growStage2;
+                this.grow3 = growStage3;
+                this.full=fullGrown;
+            }
+            get grow() {
+                return this.plantGrowth
+            }
+
+            calcArea() {
+                return this.height * this.width * this.depth
+            }
+            plantGrowth(ele) {
+                let flowerStage
+                let goalAmt = plant.growRate
+                let amt = $(ele).attr('data-amt');
+                let amtText = Math.round(amt/goalAmt*100)
+                let growthText = $(ele).find('span').css({'width' : amtText+'%'})
+
+                if(amtText >= 100){
+                     flowerStage = plant.full;
+                     $(ele).find('.sell').css({'visibility':'visible'})
+                 }else if(amtText <= 99 && amtText >= 66){
+                     flowerStage = plant.grow3;
+                 }else if (amtText >= 35 && amtText < 66){
+                     flowerStage = plant.grow2;
+                 } else if(amtText > 0 && amtText < 35 ) {
+                     flowerStage = plant.grow1;
+                 }
+                $(ele).children('.'+plant.type).css({'background':flowerStage})
+            }
+
+        }
+
+let daisy = new plant('daisy', 50, 100, 200, '#fab', '#123', '#321', 'yellow')
+
+
+$('#button1').click( function(){
+    $('.butts').css({'visibility':'visible'});
+    console.log($(this))
+    let theID = $(this);
+
+    $('#button2').click( function(){
+            $(theID).css({'background-color': daisy.full})
+
+        if (!$(theID).hasClass('planted')){
+            $(theID).append('<div class="'+daisy.type+'"></div>')
+            $(theID).addClass('planted')
+            console.log(daisy.grow)
+                }
+        })
+})
+
+
+    </script>
+</body>
+</html>

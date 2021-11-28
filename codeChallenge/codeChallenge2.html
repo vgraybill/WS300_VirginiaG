@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Challenge 2</title>
+    <style>
+        div{
+            width: 50px;
+            height: 50px;
+            position: absolute;
+        }
+        #div1{
+            top: 10px;
+            left:10px;
+            background-color: #baf;
+        }
+        #div2{
+            top: 10px;
+            right: 10px;
+            background-color: #fab;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1"></div>
+    <div id="div2"></div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js" integrity="sha512-ueXKWOB9liraz677EVGxz6H8nLk3RJjNv8Bfc0WrO9K9NyxROX3D/6bvZ9RYvAcYFxsVU+I0Jt/AMK0Nk8ya5g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+<script>
+
+    $(document).ready(loop())
+        
+    function loop() {
+        $('#div1').animate({'left':'+=250px'}, 1000, 'linear');
+        $('#div1').animate({'top':'+=500px'}, 1000);
+        $('#div1').animate({'left':'-=250px'}, 1000, 'linear');
+        $('#div1').animate({'top':'-=500px'}, 1000, function () {
+            loop()
+        });
+    };
+
+    $(document).ready(loop2())
+        
+        function loop2() {
+            $('#div2').transition({'left':'-=250px', 'background-color':'#abcdef'}, 1000, 'in');
+            $('#div2').transition({'top':'+=500px', 'background-color':'#fab'}, 1000, 'out');
+            $('#div2').transition({'left':'+=250px','background-color':'#abcdef'}, 1000, 'in');
+            $('#div2').transition({'top':'-=500px', 'background-color':'#fab'}, 1000, 'out', function () {
+                loop2()
+            });
+        };
+
+
+</script>
+
+
+</body>
+</html>
