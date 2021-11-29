@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strange Maths</title>
+    <style>
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+    </style>
+
+
+</head>
+<body>
+    <div id="message">Message</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        const myDiv = $('#message');
+        let total = 0.1+0.2; // not .3, but 0.30000000000000004 because binary
+        let total2 = total.toFixed(2);
+
+
+        function round(value, decimals){
+            return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+        }
+
+        total = round(total, 2)
+
+        const noSuchNumber = 9999999999999999; //16 9s
+        let message = '9999999999999999 does not exist in javascript because of the slightly imperfect way that it stores numbers. This gets converted to:' +noSuchNumber
+        
+        const notANumber = NaN;
+        message = 'Perhaps strangest of all is NaN, which stands for not a number but is actually a '+typeof(notANumber)+'. Weird.'
+
+
+        myDiv.text(message);
+
+
+    </script>
+</body>
+</html>

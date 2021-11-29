@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths</title>
+    <style>
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+    </style>
+
+
+</head>
+<body>
+    <div id="message">Message</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        const myDiv = $('#message');
+        let message = '';
+
+        message = Math.PI; //a value for pi
+        message = Math.round(4.7);//returns 5
+        message = Math.round(4.4);//returns 4
+        message = Math.pow(8,3); //returns 512 = 8x8x8
+        message = Math.sqrt(message); //returns 22.627416997969522
+
+        message = Math.abs(-4.7) //enforces positivity! ^u^
+
+        message = Math.ceil(4.4) //returns 5
+        message = Math.floor(4.7) //returns 4
+
+        message = Math.random(); //random decimal between 0 - almost 1
+        
+
+
+        myDiv.text(message);
+
+
+    </script>
+</body>
+</html>

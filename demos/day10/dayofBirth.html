@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <title>Pickin Dates</title>
+    <style>
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+    </style>
+
+
+</head>
+<body>
+    <p>Date: <input type="text" class="date-input" placeholder="DD/MM/YYYY"></p>
+    <div id="message">Message</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script>
+        $('.date-input').datepicker().change( function(){
+            //.change fires when you're done changing the value (like blur)
+            let theDate = $(this).val()
+            console.log(theDate)
+            let dateMessage = '';
+
+            //convert format from 11/2/2021 to 2021,10,2
+
+            theDate= theDate.split('/'); //is an array now
+
+            let m = theDate[0]-1;
+            let d = parseInt(theDate[1]);
+            let y = theDate[2]*1;
+
+            console.log(y,m,d)
+
+            let birthday = new Date(y,m,d);
+            let dayOfWeek = birthday.getDay();
+            let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+            let theDay = days[dayOfWeek];
+            $('#message').text('You were born on a '+theDay)
+
+        });
+
+    </script>
+</body>
+</html>

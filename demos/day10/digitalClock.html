@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pickin Dates</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+        body,html {
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #cfe6ff;
+        }
+        *{
+            box-sizing: border-box;
+        }
+        #clock-display {
+            color: white;
+            text-align: center;
+            background-color: #baf;
+            border-radius: 10px;
+            width: 40%;
+            padding: 1.5rem;
+            font-size: 2.5rem;
+            min-width: 483px;
+            margin: 1rem auto;
+            position: relative;
+            top: 50px;
+            border: 5px solid rgb(255, 206, 232);
+        }
+        .clock, .date {
+            margin: 1.2rem auto;
+
+        }
+        .clock, .colon {
+            font-family: 'Major Mono Display', monospace;
+        }
+        .date {
+            font-size: 1.4rem;
+        }
+        .clock div, .date div {
+            display: inline-block;
+        }
+        .date div.colon{
+            margin-right: 5px;
+            margin-left: -5px;
+        }
+        
+    </style>
+
+
+</head>
+<body>
+    <div id="clock-display">
+        <div class="clock">
+            <div class="hours">00</div>
+            <div class="colon">:</div>
+            <div class="minutes">00</div>
+            <div class="colon">:</div>
+            <div class="seconds">00</div>
+            <div class="meridiem">AM</div>
+        </div>
+
+
+        <div class="date">
+            <div class="day">MONDAY</div>
+            <div class="colon">,</div>
+            <div class="month">November</div>
+            <div class="the-date">02</div>
+            <div class="colon">,</div>
+            <div class="year">2000</div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+
+        setInterval( function(){
+            let today = new Date();
+
+            let cHour = today.getHours(),
+                cMins = today.getMinutes(),
+                cSecs = today.getSeconds(),
+                ampm = '';
+
+            if(cHour > 11){
+                ampm ='PM'
+            } else {
+                ampm = 'AM'
+            }
+
+            if (cHour > 11){
+                cHour -=12;
+            }
+
+            if(cHour == 0){
+                cHour=12;
+            }
+
+            if (cHour < 10){
+                cHour = '0'+cHour;
+            }
+            if (cMins < 10){
+                cMins = '0'+cMins;
+            }
+            if (cSecs < 10){
+                cSecs = '0'+cSecs;
+            }
+            
+            console.log(cHour, cMins, cSecs);
+
+        $('.hours').text(cHour);
+        $('.minutes').text(cMins);
+        $('.seconds').text(cSecs);
+        $('.meridiem').text(ampm);
+
+        let theDay = today.getDay(),
+            theMonth = today.getMonth(),
+            theDate = today.getDate(),
+            theYear = today.getFullYear();
+
+            console.log(theDay, theMonth, theDate, theYear)
+        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        let months = ['January','February','March','April','May','June','July','August','September','November','December']
+
+        $('.day').text(days[theDay])
+        $('.month').text(months[theMonth-1])
+        $('.the-date').text(theDate)
+        $('.year').text(theYear)
+
+
+
+        }, 1000);
+
+
+
+        
+
+
+
+    </script>
+</body>
+</html>
