@@ -39,7 +39,8 @@
                     <p>0</p>
                 </div>
                 <!-- which game mode the game is in currently, starts in grow, can be switched to .shop-mode -->
-                <div id="game-mode" class="grow-mode">
+                <div id="game-mode" class="buy-mode">
+                    Hide UI
                 </div>
 
             </div>
@@ -93,17 +94,8 @@
         let currenttime=0;
        
         let howLong = setInterval( function (){
-        //add 1 to currenttime
             currenttime++;
     
-    //update clockface with new time    
-    //clockface.innerHTML = currenttime;
-    //change to formatted time later
-        
-    //convert seconds to minutes and seconds
-        //Math.floor rounds down to a whole number
-
-//   show this here at first then place in timeFormat
             var hours = Math.floor((currenttime/60)/60);
        
             var minutes = Math.floor((currenttime/60)%60);
@@ -112,7 +104,6 @@
                 
            }
 
-       //% remainder of number divided
             var seconds = currenttime%60;
                 if(seconds < 10){
                 seconds = '0'+seconds;
@@ -124,6 +115,23 @@
     }, 1000)//end timerTick()
 
         
+    $('#game-mode').on('click', function(){
+        if($('#game-mode').hasClass('buy-mode')) {
+            $('#game-mode').text('Show UI')
+            $('.econ-ui').css({'visibility':'hidden'})
+            $('#game-mode').removeClass('buy-mode')
+            $('#game-mode').addClass('grow-mode')
+        }
+        else if ($('#game-mode').hasClass('grow-mode')){
+            $('#game-mode').text('Hide UI')
+            $('.econ-ui').css({'visibility':'visible'})
+            $('#game-mode').removeClass('grow-mode')
+            $('#game-mode').addClass('buy-mode')
+            // if ($('.plot').hasClass('full-grown1') || $('.plot').hasClass('full-grown2')){
+            //     $(this).find('.sell').css({'visibility':'visible'})
+            // }
+        }
+    })
 
         // ------------------------------
         // ------------------------------
@@ -159,14 +167,14 @@
                 let growthText = $(ele).find('.growth span').css({'width' : amtText+'%'})
 
                 if(amtText >= 100){
-                     flowerStage = 'lightblue';
-                     $(ele).find('.sell').css({'visibility':'visible'})
+                     flowerStage = 'url("img/daisyfull.png")';
+                     $(ele).find('.sell').css({'visibility':'unset'})
                  }else if(amtText <= 99 && amtText >= 66){
-                     flowerStage = 'green';
+                     flowerStage = 'url("img/daisy3.png")';
                  }else if (amtText >= 35 && amtText < 66){
-                     flowerStage = 'lime';
-                 } else if(amtText > 0 && amtText < 35 ) {
-                     flowerStage = 'yellow';
+                     flowerStage = 'url("img/daisy2.png")';
+                 } else if(amtText > 5 && amtText < 35 ) {
+                     flowerStage = 'url("img/daisy1.png")';
                  }
                 $(ele).children('.plant1').css({'background':flowerStage})
             }
@@ -193,14 +201,14 @@
                 let growthText = $(ele).find('span').css({'width' : amtText+'%'})
 
                 if(amtText >= 100){
-                     flowerStage = '#baf';
-                     $(ele).find('.sell').css({'visibility':'visible'})
+                     flowerStage = 'url("img/tulipfull.png")';
+                     $(ele).find('.sell').css({'visibility':'unset'})
                  }else if(amtText <= 99 && amtText >= 66){
-                     flowerStage = '#123456';
+                     flowerStage = 'url("img/tulip3.png")';
                  }else if (amtText >= 35 && amtText < 66){
-                     flowerStage = '#cef123';
+                     flowerStage = 'url("img/tulip2.png")';
                  } else if(amtText > 0 && amtText < 35 ) {
-                     flowerStage = '#caffe2';
+                     flowerStage = 'url("img/tulip1.png")';
                  }
                 $(ele).children('.plant2').css({'background':flowerStage})
             }
@@ -252,7 +260,7 @@
                     }else{
                         alert('You need more coins')
                         let jQEle = $('#'+theID)
-                        $(jQEle).find('.buy').css({'visibility':'visible'})
+                        $(jQEle).find('.buy').css({'visibility':'unset'})
                         $('.buyplant').css({'visibility':'hidden'})
                         $('#plant1').off('click');
                         $('#plant2').off('click');
@@ -294,7 +302,7 @@
                     } else {
                         alert('You need more coins')
                         let jQEle = $('#'+theID)
-                        $(jQEle).find('.buy').css({'visibility':'visible'})
+                        $(jQEle).find('.buy').css({'visibility':'unset'})
                         $('.buyplant').css({'visibility':'hidden'})
                         $('#plant1').off('click');
                         $('#plant2').off('click');
@@ -316,7 +324,7 @@
                     $(this).parents('.plot').removeClass('full-grown1');
                     $(jQEle).find('.plant1').remove();
                     $(this).css({'visibility':'hidden'});
-                    $(this).siblings('.buy').css({'visibility':'visible'});
+                    $(this).siblings('.buy').css({'visibility':'unset'});
                     $(jQEle).attr('data-amt', 0);
                     $(this).siblings('div').find('span').css({'width': 0})
 
@@ -334,7 +342,7 @@
                     $(this).parents('.plot').removeClass('full-grown2');
                     $(jQEle).find('.plant2').remove();
                     $(this).css({'visibility':'hidden'});
-                    $(this).siblings('.buy').css({'visibility':'visible'});
+                    $(this).siblings('.buy').css({'visibility':'unset'});
                     $(jQEle).attr('data-amt', 0);
                     $(this).siblings('div').find('span').css({'width': 0})
                     playerCoins=playerCoins+500;

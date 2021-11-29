@@ -34,6 +34,7 @@ body {
     position: relative;
     top: 25px;
     justify-content: space-around;
+    letter-spacing: .3rem;
 }
 #ui div{
     width: 30%;
@@ -42,6 +43,10 @@ body {
 }
 #ui div p {
     padding-left: 20px;
+}
+#game-mode {
+    text-align: center;
+    letter-spacing: .15rem;
 }
 #buy-area {
     width: 950px;
@@ -98,6 +103,7 @@ body {
     position: relative;
     top: -15px;
     border: 1px solid white;
+    visibility: visible;
 }
 .sell {
     position: relative;
@@ -115,13 +121,13 @@ body {
     
 }
 .plant1 {
-    background-color: aliceblue;
+    background: url('img/daisyplot.png');
     width: 150px;
     height: 155px;
     margin: 0 auto;
 }
 .plant2 {
-    background-color: #fab;
+    background: url('img/tulipplot.png');
     width: 150px;
     height: 155px;
     margin: 0 auto;
