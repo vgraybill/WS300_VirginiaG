@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilla AJAX Demo</title>
+    <style>
+        body, html {
+            padding: 0;
+            margin: 0;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .hide-me{
+            visibility: hidden;
+            opacity: 0;
+            transform: scale(.75);
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 2.4em;
+            font-weight: normal;
+            display: inline-block;
+        }
+        button {
+            background-color: #baf;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+        button:hover {
+            background-color: #1234ef;
+        }
+        p {
+            padding: 4px 0 2px 8px;
+            line-height: 1.7em;
+            border-bottom: 1px dotted #ddd;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>JSON and AJAX</h1>
+        <button id="btn">Fetch Info for 3 New Animals</button>
+    </header>
+    <div id="animal-info">Animal Info to go here.</div>
+
+
+    <script>
+        //No JQuery here
+        const btn = document.querySelector('#btn'),
+              animalContainer = document.querySelector('#animal-info');
+
+        let clicks = 1;
+        
+        btn.addEventListener('click', function(){
+            if(clicks < 4){
+                const url = 'https://learnwebcode.github.io/json-example/animals-'+clicks+'.json'
+                let ourRequest = new XMLHttpRequest();
+                ourRequest.open('GET', url) //can also 'POST', opens the pathway
+
+                ourRequest.onload = function() {
+                    let ourData= JSON.parse(ourRequest.responseText)
+                    console.log(ourData[0]);
+                    clicks++;
+                    renderHTML(ourData);
+                }
+                ourRequest.send(); //sends the data to the browser
+            }
+
+        })
+
+        function renderHTML(data){
+            let htmlString='';
+            for(let i = 0; i < data.length; i++){
+                htmlString+=`<p>${data[i].name} is a ${data[i].species}.</p>`;
+            }
+            animalContainer.insertAdjacentHTML('beforeend', htmlString);
+        }
+
+    </script>
+</body>
+</html>

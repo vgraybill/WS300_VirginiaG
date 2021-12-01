@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<title>Side Slide Show</title>
+	<style type="text/css">
+		body{
+			font-family: Verdana;
+		}
+
+	/*	styles for the handcrafted slider */
+
+	.outer-container{
+		position: relative;
+		max-width: 600px;
+		margin: 0 auto;
+		border: 1px solid black;
+	}
+
+	.inner-container{
+		position: relative;
+		/*max-height: 400px;*/
+		overflow: hidden;
+	}
+	.slide-container{
+			width: 100%;
+			height: 0;
+			max-width: 600px;
+			max-height: 400px;
+			padding-bottom: 66.666666%;
+			/*this is a 1.5 aspect-ratio
+			giving us a 66.66666666% bottom padding
+			*/
+			margin: 0 auto;
+			position: relative;
+			overflow: hidden;
+			line-height: 1rem;
+
+		}
+
+		.slide-container div.slide{
+			width: 100%;
+			line-height: 1rem;
+			font-size: 16px;
+			padding: 0;
+			margin: 0;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		.slide-container div.slide img{
+			width: 100%;
+			max-width: 100%;
+			padding: 0px;
+
+		}
+
+		.button.auto{
+			display: inline-block;
+			width: 150px;
+			margin: 6px;
+			background-color: cadetblue;
+			border-radius: 5px;
+			padding: 5px;
+			text-align: center;
+			color: white;
+			display: block;
+			width: 90%; 
+			max-width: 350px;
+			margin: 6px auto; 
+		}		
+
+		.mouse-click{
+			cursor: pointer;
+		}
+
+		.slide-arrow-container{
+			position: absolute;
+			width: 100%;
+			height: 32px;
+		}
+
+		.slide-arrow-container .prev.button{
+		position: absolute;
+    	top:0;
+    	outline: 0;
+    	width: 32px;
+    	height: 32px;
+    	text-indent: -9999px;
+    	z-index: 9999;
+		left: 10px;
+		/* top:-200px; */
+    	background: url(images/controls.png) no-repeat 0 -32px;
+		}
+
+
+		.slide-arrow-container .next.button{
+		position: absolute;
+    	top: 0;
+ /*   	margin-top: -16px;
+ */   	outline: 0;
+    	width: 32px;
+    	height: 32px;
+    	text-indent: -9999px;
+    	z-index: 9999;
+		right: 10px;
+		/* top:-200px; */
+    	background: url(images/controls.png) no-repeat -43px -32px;
+		}
+
+		.pager-container{
+			text-align: center;
+		}
+
+		span.pager{
+			width: 32px;
+			height: 32px;
+			line-height:32px;
+			border-radius: 50%;
+			margin: 1%;
+			display: inline-block;
+			background-color: grey;
+			color: white;
+		}
+		span.pager.active{
+			background-color: cadetblue;
+		}
+		h1 {
+			text-align: center;
+		}
+		p{
+			width: 80%;
+			margin: 20px auto;
+		}
+		.button {
+			margin-top: 10px;
+		}
+		
+
+/* ghost css to help me find where the padding is going astray...*/
+/* *{
+/*	background-color: black;
+	color: green;	
+	border: 1px solid red;
+*/
+
+
+	</style>
+</head>
+<body>
+<h1>Side Slider</h1>
+<div class="outer-container">
+	<div class="inner-container">
+		<div class="slide-container">
+			<div class="slide">
+				<img src="images/slides/coffee1.jpg" title="best part of waking up" alt="delicious coffee">
+			</div>
+			<div class="slide">
+				<img src="images/slides/coffee2.jpg" title="sharing is caring" alt="delicious coffee">
+			</div>
+			<div class="slide">
+				<img src="images/slides/coffee3.jpg" title="coffee is love" alt="delicious coffee">
+			</div>
+			<div class="slide">
+				<img src="images/slides/coffee4.jpg" title="you snooze you lose" alt="delicious coffee">		
+			</div>
+		</div>
+	</div>
+	<div class="slide-arrow-container">
+		<div class="button prev mouse-click">Prev</div>
+		<div class="button next mouse-click">Next</div>
+	</div>
+</div>
+<p>
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+	let slideCount = 0; //will store the number of slides in my slider
+	let currentSlide = 1; //keeps track of which slide is currently visible
+	const slideBox = $('.slide-container');
+	const slideNav = $('.slide-arrow-container');
+	let auto=true;
+
+	$('.slide').each( function(i){
+		//i is index
+		let slide = $(this)
+		if(i != 0){
+			//all other slides except first, move off to the right
+			slide.css({left:slideBox.width()})
+		}else{
+			slide.css({left:0}).addClass('current');
+		}
+
+		slide.attr('id', i+1);
+		slideCount++;
+
+	}) //end set up
+
+function nextSlide(){
+
+	removeClicks();
+
+	let incomingSlide = currentSlide+1;
+		if(incomingSlide > slideCount){
+			incomingSlide = 1;
+		}
+
+		$('#'+currentSlide).animate({left:-slideBox.width()}, 900).removeClass('current');
+		$('#'+incomingSlide).css({left:slideBox.width()}).animate({left:0}, 900, function(){
+			addClicks();
+		}).addClass('current');
+		currentSlide = incomingSlide;
+
+}
+
+function prevSlide() {
+	removeClicks();
+
+let incomingSlide = currentSlide-1;
+	if(incomingSlide < 1){
+		incomingSlide = slideCount;
+	}
+
+	$('#'+currentSlide).animate({left:slideBox.width()}, 900).removeClass('current');
+	$('#'+incomingSlide).css({left:-slideBox.width()}).animate({left:0}, 900, function(){
+		addClicks();
+	}).addClass('current');
+	currentSlide = incomingSlide;
+
+}
+
+
+
+//setInterval(nextSlide, 5000);
+
+function adjustSlider(){
+	let sNavH = slideNav.height();
+	let sBoxH = slideBox.outerHeight();
+	let sBoxW = slideBox.outerWidth(); //height, outerHeight, innerHeight may vary depending on the box model used on the element
+	$('.slide:not(".current")').css({left:sBoxW});
+	slideNav.css({'top':(sBoxH/2)-(sNavH/2)+'px'}
+	)
+
+}
+adjustSlider();
+addClicks();
+
+
+$(window).on('resize', adjustSlider);
+
+function addClicks() {
+	$('.next').on('click', nextSlide);
+	$('.prev').on('click', prevSlide);
+}
+
+function removeClicks(){
+	$('.next').off('click');
+	$('.prev').off('click');
+}
+
+
+
+
+</script>
+</body>
+</html>
