@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #game-stage {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background-color: #59744B;
+            background-image: url(images/fullbackground.jpg);
+            background-position: 0px 0px;
+            background-repeat: repeat-x;
+            overflow: hidden;
+        }
+        .dragon {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            width: 200px;
+            height: 144px;
+            background-position: 0px 0px;
+            background-image: url(images/dragon2.png);
+        }
+    </style>
+</head>
+<body>
+    <div id= "game-stage">
+        <div class="dragon"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        let speedX = 0;
+        let speedY = 0;
+        let dir = 'right';
+
+        function panBackground() {
+            if(dir == 'right') {
+                speedX -= 3;
+            } else { 
+                speedX += 3;
+            }
+            $('#game-stage').css({'background-position': speedX+'px '+speedY+'px'});
+            requestAnimationFrame(panBackground)
+        }
+        panBackground();
+
+        let curFrame = 0;
+
+        function dragonFlap(){
+            const frames = [0, 1, 2, 3],
+                  frameWidth = 200;
+            let bgPos = -(frameWidth*frames[curFrame]);
+            curFrame ++
+            $('.dragon').css({'background-position': bgPos+'px 0px'})
+            if (curFrame == frames.length) {
+                curFrame = 0;
+            }
+        }
+
+        setInterval(dragonFlap, 1000/10);
+
+
+    </script>
+</body>
+</html>
