@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Challenge 3</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 50px auto;
+            box-sizing: border-box;
+            width: 50%;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        .text-output p:first-of-type {
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        .text-output p:last-of-type {
+            font-style: italic;
+        }
+        .text-output span {
+            font-weight: bold;
+        }
+        #text-input {
+            padding: .25rem;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="text-input" placeholder="Type Here, Please">
+    <div class="text-output">
+        <p>-</p>
+        <p>The Number of characters is: <span>0</span></p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        const textOutput = [];
+
+        $('#text-input').on('keyup', function (){
+            let textInput = $('#text-input').val();
+            let inputLength = textInput.length;
+
+            $('.text-output p:first-child').text(textInput)
+            $('.text-output span').text(inputLength)
+
+        })//end key up function
+    </script>
+</body>
+</html>
