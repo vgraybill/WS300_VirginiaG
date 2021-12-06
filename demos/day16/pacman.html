@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>PacMan</title>
+	<!-- put generic favicon in the root -->
+	<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Press+Start+2P&family=Sigmar+One&display=swap" rel="stylesheet">
+	<style type="text/css">
+			body{
+				font-size: 20px;
+				background-color: black;
+				margin: 0 auto;
+				text-align: center;
+			}
+            h1,h2 {
+                text-align: center;
+                color: blue;
+				font-family: 'Sigmar One', cursive;
+				font-size: 50px;
+            }
+
+            h2{
+            	font-size: 40px;
+            	margin: .5em
+            }
+
+            nav.nav{
+            	background-color: #e1e1e1;
+            	padding: .5em;
+            	color:  #666;
+            }
+
+            nav.nav a, nav.nav a:visited{
+            	color: #666;
+            }
+            nav.nav a:hover{
+            	text-decoration: underline;
+            }
+
+			.container {
+			    min-width: 650px;
+			    max-width: 900px;
+			    margin: 0 auto;
+			}
+            a{
+            	text-decoration: none;
+            }
+            /*table styles are for the layout of the scoreboard in the python leaderboard demo*/
+			table{
+				width: 75%;
+				margin: 0 auto 1em;
+				border-collapse: collapse;
+			}
+			th{
+				font-size: 1.5em;
+				padding: 0 0 .5em;
+				text-align: left;
+			}
+
+			td{
+				padding: .5em;
+				text-align: left;
+			}
+
+			td:last-child, th:last-child{
+				text-align: right;
+				padding-right: 1.5em
+			}
+			
+			td:first-child, th:first-child{
+				padding-left: 1.5em
+			}	
+
+			p {
+				font-family: 'Press Start 2P', cursive;
+				color: white;
+				font-size: 1rem;
+				width: 80%;
+				margin: 0 auto 2em;
+			}
+			.button{
+				font-family: 'Luckiest Guy';
+				font-size: 20px;
+				margin: 1em auto;
+				border-radius: 20px;
+				border: 2px solid white;
+				background-color: blue;
+				color: white;
+				padding: .5em;
+				cursor: pointer;
+				width: fit-content;
+				padding: .5em
+
+			}
+
+			/*gamestyles*/
+			 .score {
+				font-family: 'Press Start 2P', cursive;
+				color: yellow;
+				font-size: 20px;
+				padding: 0 0 20px 0;
+				display: none;
+			}
+
+			#grid-container{
+				 background-color: black;
+				 border: 2px solid yellow;
+				 margin: 0 auto; 
+			}
+			#grid-container h2{
+				color: white;
+				font-family: 'Sigmar One', cursive;
+				padding-top: 150px;
+			}
+			.grid-square{
+				width: 20px;
+				height: 20px;
+				border: 1px solid black;
+				float: left;
+				box-sizing: border-box;
+			}
+			.wall{
+				background-color: blue;
+			}
+            .beans {
+                clip-path: circle(7.4% at 50% 50%);
+                background-color: white;
+            }
+			.power{
+				background-color: white;
+                clip-path: circle(25% at 50% 50%);
+			}			
+			.ghost{
+                clip-path: polygon(49% 5%, 77% 16%, 91% 42%, 93% 96%, 69% 66%, 48% 92%, 28% 68%, 5% 96%, 8% 44%, 20% 16%);
+                /* clip-path: unset; */
+			}
+			.red.ghost{
+				background-color: red; 
+			}
+			.green.ghost{
+				background-color: lime;
+			}
+			.pink.ghost{
+				background-color: violet;
+			}
+			.blue.ghost{
+				background-color: aqua;
+			}
+
+			.ghosty.ghost{
+				background-color: rgba(141, 146, 247, 1);
+			}
+
+			/*outside, border ghost */
+			.floaty{
+				position: absolute;
+				width: 30px;
+				height: 30px;
+				background-color: rgba(255, 255, 255, 1);
+				clip-path: polygon(49% 5%, 77% 16%, 91% 42%, 93% 96%, 69% 66%, 48% 92%, 28% 68%, 5% 96%, 8% 44%, 20% 16%);
+                /*js will supply the top and left pos*/
+			}
+
+			.floaty .inside{
+				position: absolute;
+  				top: 2px;
+				left: 2px;
+				right: 2px;
+				bottom: 4px;
+				background: rgba(141, 146, 247, 1);
+				-webkit-clip-path: polygon(49% 5%, 77% 16%,91% 42%,93% 96%,69% 66%,48% 92%,28% 68%,5% 96%,8% 44%,20% 16%);
+				clip-path: polygon(49% 5%, 77% 16%,91% 42%,93% 96%,69% 66%,48% 92%,28% 68%,5% 96%,8% 44%,20% 16%);
+
+			}
+
+			.grid-square.pacman{
+				background-color: yellow;
+				clip-path: polygon(50% 1%, 77% 12%, 92% 30%, 39% 51%, 92% 79%, 53% 98%, 20% 89%, 1% 67%, 4% 34%, 22% 11%);
+			}
+
+/*modal window styles*/
+			body{
+				font-family: Verdana;
+				line-height: 1.5;
+			}
+
+			.overlay{
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(0,0,0,0.5);
+				opacity: 0;
+				transition: .5s ease;
+				z-index: -1;
+			}
+
+			.overlay.active{
+				opacity: 1;
+				z-index: 2;
+			}
+
+			.modal{
+				max-height: calc(100% - 100px);
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: #4A5666;
+				background-color: white;
+				max-width: 500px;
+				z-index: 3;
+				display: none;
+				transition: .5s ease;
+				padding: 1em .5em;
+				border-style: groove; 
+				border-color:blue
+			}
+
+			.modal h2{
+				margin: 0 auto;
+				padding: 1rem;
+				font-size: 30px
+			}
+
+			.modal.active{
+				display: block;
+			}
+
+			button{
+				display: inline-block;
+				background: navy;
+				color: white;
+				font-size: 1.2rem;
+				padding: 1rem 2rem;
+				border-radius: 45px;
+				margin: .25rem 0;
+				vertical-align: middle;
+				line-height: 1rem;
+				overflow: visible;
+				white-space: nowrap;
+				cursor: pointer;
+			}
+
+			.button:hover{
+				background: cornflowerblue;
+			}
+
+			button.close{
+				margin: 0 0 1rem;
+				background-color: navy;
+				border: 1px solid white;
+			}
+
+			button.close:hover{
+				border: 1px solid navy;
+			}
+			button:focus{
+				outline: transparent;
+			}
+
+			form{
+				padding: 1em;
+			}
+
+			input#name {
+    			height: 30px;
+    			margin-bottom: 1em;
+			}
+
+			input[type=text]::placeholder{
+				color: #7d7d7d;
+				font-style: italic;
+			}
+
+			input[type=text]{
+			  -webkit-transition: all 0.30s ease-in-out;
+			  -moz-transition: all 0.30s ease-in-out;
+			  -ms-transition: all 0.30s ease-in-out;
+			  -o-transition: all 0.30s ease-in-out;
+			  outline: none;
+			  padding: 3px 0px 3px 3px;
+			  margin: 5px 1px 3px 0px;
+			  border: 1px solid #DDDDDD;
+			  border-radius: 5px;
+			}
+			 
+			input[type=text]:focus{
+			  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+			  padding: 3px 0px 3px 3px;
+			  margin: 5px 1px 3px 0px;
+			  border: 1px solid rgba(81, 203, 238, 1);
+			}		
+
+	</style>
+	</head>   
+	<body>
+		<!-- nav html? -->
+	    <div class="container">
+		    <h1>PAC-MAN</h1>
+    		<div class="score">SCORE: <span>0</span></div>
+    		<p class="info">Use arrow keys to move the Pac-Man. Eat the pellets to score points. The larger ones make the ghosts edible. Edible ghosts give you more points. Score as many points as you can by eating all that you can.</p>
+    		<div id="grid-container"></div>
+    		<div class="overlay"></div>
+    		<div class="modal">
+        	<h2>Enter Your Name</h2>
+	        <form action="" method="POST">
+	            <label for="name">Name:</label>
+	            <input id="name" type="text" name="name" required maxlength="20" placeholder="Your Name">
+	           <input type="hidden" name="score">
+	           <button type="submit" class="close button">Click to Add Your Score</button>             
+	        </form>
+    	</div>
+    </div>
+    <button class="start button">Start Game</button>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	'use strict';
+	//global variables:
+	let rows = 26, 
+    	columns = 23, 
+    	pacmanX = 11, 
+    	pacmanY = 15, 
+    	score = 0,
+    	beans = 0,
+    	moveTghost,
+    	gameRunning = false,
+    	numOfGhosts = 0,
+    	redGCoords = '#12-13',
+    	greenGCoords = '#11-12',
+    	blueGCoords = '#10-13',
+    	pinkGCoords = '#11-13';;
+
+//sounds go here:
+
+	const death = new Audio('sounds/pacman_death.mp3'),
+		  chomp = new Audio('sounds/pacman_chomp.mp3'),
+		  pellet = new Audio('sounds/pacman_pellet.mp3'),
+		  intro = new Audio('sounds/pacman_beginning.mp3')
+
+
+
+
+//manipulate properties of sounds as needed:
+		chomp.volume = .5; //half the normal volume
+
+
+//event listener on audio object
+
+intro.addEventListener('ended', function (){
+	gameRunning = true;
+	moveGhost();//starts timeout for ghosts movement
+
+})
+
+
+
+	$('.start').click(setUpGame)
+
+	function setUpGame(){
+	intro.play();
+	$('.start, .info').hide();
+	$('.score').show()	
+	pacmanX = 11; 
+    pacmanY = 15;
+	$('#grid-container').html('');
+	//all the things needed to set up the game....
+	for(let j = 0; j < rows; j++){      
+
+	    for(let i=0; i<columns; i++){
+		    let xCoord = i;
+		    let yCoord = j; 
+		    let square = $('<div>').addClass('grid-square').attr('id', xCoord+'-'+yCoord);
+		    $('#grid-container').append(square);
+
+		    } //end inner loop
+
+	}//end outer loop;
+
+let boxW = $('.grid-square').outerWidth(); 
+let boxH = $('.grid-square').outerHeight();
+
+$('#grid-container').css({width: boxW * columns, height:boxH * rows}) 
+
+$('#'+pacmanX+'-'+pacmanY).addClass('pacman');
+
+//wall squares
+$('#0-0, #1-0, #2-0, #3-0, #4-0, #5-0, #6-0, #7-0, #8-0, #9-0, #10-0, #11-0, #12-0, #13-0, #14-0, #15-0, #16-0, #17-0, #18-0, #19-0, #20-0, #21-0, #22-0, #0-1, #11-1, #22-1, #0-2, #2-2, #3-2, #4-2, #6-2, #7-2, #8-2, #9-2, #11-2, #13-2, #14-2, #15-2, #16-2, #18-2, #19-2, #20-2, #22-2, #0-3, #2-3, #3-3, #4-3, #6-3, #7-3, #8-3, #9-3, #11-3, #13-3, #14-3, #15-3, #16-3, #18-3, #19-3, #20-3, #22-3, #0-4, #2-4, #3-4, #4-4, #6-4, #7-4, #8-4, #9-4, #11-4, #13-4, #14-4, #15-4, #16-4, #18-4, #19-4, #20-4, #22-4, #0-5, #22-5, #0-6, #2-6, #3-6, #4-6, #6-6, #7-6, #9-6, #10-6, #11-6, #12-6, #13-6, #15-6, #16-6, #18-6, #19-6, #20-6, #22-6, #0-7, #2-7, #3-7, #4-7, #6-7, #7-7, #9-7, #10-7, #11-7, #12-7, #13-7, #15-7, #16-7, #18-7, #19-7, #20-7, #22-7, #0-8, #6-8, #7-8, #10-8, #11-8, #12-8, #15-8, #16-8, #22-8, #0-9, #1-9, #2-9, #3-9, #4-9, #6-9, #8-9, #7-9, #10-9, #11-9, #12-9, #14-9, #15-9, #16-9, #18-9, #19-9, #20-9, #21-9, #22-9, #0-10, #1-10, #2-10, #3-10, #4-10, #6-10, #7-10, #8-10, #10-10, #11-10, #12-10, #14-10, #15-10, #16-10, #18-10, #19-10, #20-10, #21-10, #22-10, #0-11, #1-11, #2-11, #3-11, #4-11, #6-11, #7-11, #15-11, #16-11, #18-11, #19-11, #20-11, #21-11, #22-11, #0-12, #1-12, #2-12, #3-12, #4-12, #6-12, #7-12, #9-12, #10-12, #12-12, #13-12, #15-12, #16-12, #18-12, #19-12, #20-12, #21-12, #22-12, #9-13, #13-13, #0-14, #1-14, #2-14, #3-14, #4-14, #6-14, #7-14, #9-14, #10-14, #11-14, #12-14, #13-14, #15-14, #16-14, #18-14, #19-14, #20-14, #21-14, #22-14, #0-15, #1-15, #2-15, #3-15, #4-15, #6-15, #7-15,#15-15, #16-15, #18-15, #19-15, #20-15, #21-15, #22-15, #0-16, #1-16, #2-16, #3-16, #4-16, #6-16, #7-16, #9-16, #10-16, #11-16, #12-16, #13-16, #15-16, #16-16, #18-16, #19-16, #20-16, #21-16, #22-16, #0-17, #1-17, #2-17, #3-17, #4-17, #6-17, #7-17, #9-17, #10-17, #11-17, #12-17, #13-17, #15-17, #16-17, #18-17, #19-17, #20-17, #21-17, #22-17, #0-18, #6-18, #7-18, #10-18, #11-18, #12-18, #15-18, #16-18, #22-18, #0-19, #2-19, #3-19, #4-19, #5-19, #5-19, #6-19, #7-19, #8-19, #10-19, #11-19, #12-19, #14-19, #15-19, #16-19, #17-19, #18-19, #19-19, #20-19,#22-19, #0-20, #2-20, #3-20, #4-20, #5-20, #5-20, #6-20, #7-20, #8-20, #10-20, #11-20, #12-20, #14-20, #15-20, #16-20, #17-20, #18-20, #19-20,#20-20, #22-20, #0-21, #10-21, #11-21, #12-21, #22-21, #0-22, #1-22, #2-22, #4-22, #5-22, #17-22, #18-22, #20-22, #21-22, #22-22, #0-23, #1-23, #2-23, #4-23, #5-23, #6-23, #7-23, #8-23, #9-23, #10-23, #11-23, #12-23, #13-23, #14-23, #15-23, #16-23, #17-23, #18-23, #20-23, #21-23, #22-23,#22-24, #0-25, #1-25, #2-25, #3-25, #4-25, #5-25, #6-25, #7-25, #8-25, #9-25, #10-25, #11-25, #12-25, #13-25, #14-25,#15-25, #16-25, #17-25, #18-25, #19-25, #20-25, #21-25, #22-25, #0-24').addClass('wall');
+
+
+
+$(greenGCoords).addClass('ghost green start'); 
+$(blueGCoords).addClass('ghost blue start');
+$(pinkGCoords).addClass('ghost pink start');
+$(redGCoords).addClass('ghost red start');
+
+//pellet squares
+$('#1-1, #3-1, #4-1, #5-1, #6-1, #7-1, #8-1, #9-1, #10-1, #12-1, #13-1, #14-1, #15-1, #16-1, #17-1, #18-1, #19-1, #21-1, #1-2, #5-2, #10-2, #12-2, #17-2, #21-2, #1-3, #5-3, #10-3, #12-3, #17-3, #21-3, #1-4, #5-4, #10-4, #12-4, #17-4, #21-4, #1-5, #2-5, #3-5, #4-5, #5-5, #6-5, #7-5, #8-5, #9-5, #10-5, #11-5, #12-5, #13-5, #14-5, #15-5, #16-5, #17-5, #18-5, #19-5, #20-5, #21-5, #1-6, #5-6, #8-6, #14-6, #17-6, #21-6, #1-7, #5-7, #8-7, #14-7, #17-7, #21-7, #1-8, #2-8, #3-8, #4-8, #5-8, #8-8, #9-8, #13-8, #14-8, #17-8, #18-8, #19-8, #20-8, #21-8, #5-9, #9-9, #13-9, #17-9, #5-10,#9-10,#13-10,#17-10, #5-11, #8-11, #9-11, #10-11, #11-11, #12-11, #14-11, #13-11, #17-11, #5-12, #8-12, #14-12, #17-12, #1-13, #2-13, #3-13, #4-13, #5-13, #6-13, #7-13, #8-13, #14-13, #15-13, #16-13, #17-13, #18-13, #19-13, #20-13, #21-13, #5-14, #8-14, #14-14, #17-14, #5-15, #8-15, #9-15, #10-15, #12-15, #13-15, #14-15, #17-15, #5-16, #8-16, #14-16, #17-16, #5-17, #8-17, #14-17, #17-17, #1-18, #2-18, #3-18, #4-18, #5-18, #8-18, #9-18, #13-18, #14-18, #17-18, #18-18, #19-18, #20-18, #21-18, #1-19, #9-19, #13-19, #21-19, #1-20, #9-20, #13-20, #21-20, #1-21, #2-21, #3-21, #4-21, #5-21, #6-21, #7-21, #8-21, #9-21, #13-21, #14-21, #15-21, #16-21, #17-21, #18-21, #19-21, #20-21, #21-21, #3-22, #6-22, #7-22, #8-22, #9-22, #10-22, #11-22, #12-22, #13-22, #14-22, #15-22, #16-22, #19-22, #3-23, #19-23, #1-24, #3-24,#4-24, #5-24, #6-24, #7-24, #8-24, #9-24,#10-24, #11-24,#12-24,#13-24, #14-24,#15-24,#16-24,#17-24, #18-24, #19-24, #0-13, #22-13, #2-24, #20-24, #2-1, #20-1, #21-24').addClass('beans');
+
+	$('#1-3, #21-3, #1-21, #21-21').addClass('power');
+
+	
+
+	} // end set up game
+
+$(document).keydown( function(e){
+    //player movement is determined here.
+
+    //let eating = false;
+    if(gameRunning == true){
+
+        let tempX = pacmanX, 
+            tempY = pacmanY;
+            //we need to check the value of the square the pacman is moving into before we move the pacman into it so we store the temp value of the potential x-y coordinate.  
+
+        if(e.which == 38){
+            //move up
+            tempY = tempY-1;
+            /*other examples:
+            tempY-=1
+            tempY--
+            */
+        }
+
+        if(e.which == 40){
+            //move down
+            tempY = tempY+1;
+            /*other examples:
+            tempY+=1
+            tempY++
+            */
+        }
+
+        if(e.which == 37){
+            //move left
+            tempX = tempX-1;
+        }
+
+        if(e.which == 39){
+            //move right
+            tempX = tempX+1;
+        }
+
+        let update = false; //assuming we are going to run into an illegal square
+
+        if(tempX == 23 && tempY == 13 ){
+            //passthrough
+            tempX = 0;
+            update = true;
+
+            if($('#'+tempX+'-'+tempY).hasClass('beans')){
+                score+=50;
+				chomp.play();
+            }
+
+        }else if(tempX == -1 && tempY == 13 ){
+            //other passthrough         
+            tempX = 22;
+            update = true;
+
+            if($('#'+tempX+'-'+tempY).hasClass('beans')){
+                score+=50;
+				chomp.play();
+                $('#'+tempX+'-'+tempY).removeClass('beans')
+            }
+
+        }else if($('#'+tempX+'-'+tempY).hasClass('ghosty')){
+            //console.log('player gets to eats ghost. returns to start position')
+            update = true;
+			chomp.pause();
+			//eatGhost goes here
+
+            let color = '';
+            //TODO: think about a more elegent solution....
+
+            if($('#'+tempX+'-'+tempY).hasClass('pink')){
+                color = 'pink'
+            }
+
+            if($('#'+tempX+'-'+tempY).hasClass('blue')){
+                color = 'blue'
+            }
+
+            if($('#'+tempX+'-'+tempY).hasClass('green')){
+                color = 'green'
+            }
+
+            if($('#'+tempX+'-'+tempY).hasClass('red')){
+                color = 'red'
+            }
+
+            if($('#'+tempX+'-'+tempY).hasClass('beans')){
+                score+=50
+                chomp.play();
+            }
+
+            $('#'+tempX+'-'+tempY).removeClass('ghost ghosty');
+            
+            score+=300;
+
+            let pos = $('#'+tempX+'-'+tempY).position();
+            
+            genFloatGhost(pos.top, pos.left, color);
+
+        }else if($('#'+tempX+'-'+tempY).hasClass('ghost')){
+            //player has run into ghost
+            gameOver();
+            return false; //exits the function
+
+        }else if(tempY < 0 || tempX < 0 || tempY > rows -1 || tempX > columns-1 || $('#'+tempX+'-'+tempY).hasClass('wall') ){
+            //illegal squares. do nothing.
+
+        }else{
+            update = true;
+
+            if($('#'+tempX+'-'+tempY).hasClass('power')){
+                score+=100;
+                //make ghosts turn ghosty...
+                getGhosts();
+				chomp.pause();
+				pellet.play();
+            }
+
+            if($('#'+tempX+'-'+tempY).hasClass('beans')){
+                score+=50;
+				chomp.play();
+            }
+
+        } //ends check squares for movement
+
+        //check win condition
+        if($('.power').length < 1 && $('.beans').length < 1 ){
+            gameOver('win');
+        }
+
+        //if update is true, then change the pacman coordinates
+        if(update){
+            pacmanX = tempX;
+            pacmanY = tempY;
+            $('.score span').text(score);
+            $('#'+tempX+'-'+tempY).removeClass('beans power')
+        }
+        //removes all class pacman
+        $('.grid-square').removeClass('pacman');
+        //adds class pacman to new coordinates
+        $('#'+pacmanX+'-'+pacmanY).addClass('pacman');
+
+    }else{
+        //gameRunning not true
+        if(e.which == 27 ){
+            //esc key has been pressed
+            $('.overlay').trigger('click');   
+            //acts as if we clicked on the overlay which closes the modal window
+        }
+
+    } 
+
+}); //end keydown listener
+
+
+function moveGhost(){
+    let ghostX,
+        ghostY;
+
+    $('.ghost').each( function(){
+        //the jQuery each function handles every ghost in the node list individually
+
+        let ghost = $(this); 
+        //'this' is a keyword in JS that is the object that JS is handling/focused on in the moment. 
+        //The $() puts that object into a jQuery object which allows us to use jQuery methods on it.
+        
+        let ghostClasses = ghost.attr('class'); 
+        //class gets the list stored in the class attributes on that square
+        //the set of code below removes all the classes that I do not want to follow the ghost when it moves into its new square.
+        ghostClasses = ghostClasses.replace('grid-square', '')
+        ghostClasses = ghostClasses.replace('beans', '')
+        ghostClasses = ghostClasses.replace('power', '')
+        ghostClasses = ghostClasses.replace('start', '')
+
+        let ghostId = ghost.attr('id'); //this gets the id of that square  
+        ghostId = ghostId.split('-');//this splits it up into that square's x-y coordinate.
+        
+        ghostX = ghostId[0]*1; //*1 is my favorite way to make a string a number due to concatenation rules.
+        ghostY = ghostId[1]*1;//And it keeps it primative data, rather than using the Number() object
+        
+        let dir = getRandomInt(1,4);
+
+        let eTempX = ghostX; 
+        let eTempY = ghostY; 
+
+        if(dir == 1){
+            //up
+            eTempY--;
+        }
+
+        if(dir == 2){
+            //down
+            eTempY++;
+        }
+        if(dir == 4){
+            //left
+            eTempX--;
+        }
+
+        if(dir == 3){
+            //right
+            eTempX++;
+        }
+
+        //check if new square is illegal for ghost
+        if( eTempY < 0 || eTempX < 0 || eTempX > columns-1 || eTempY > rows-1 || $('#'+eTempX+'-'+eTempY).hasClass('wall') || $('#'+eTempX+'-'+eTempY).hasClass('ghost')){
+        //ghost cannot move.
+
+
+
+        //need to find open square: dir 1 is up, dir 2 is down, dir 3 right, dir 4 is left. We can put that here in order to speed up good movement.
+        
+
+
+        }else if($('#'+eTempX+'-'+eTempY).hasClass('pacman') && !(ghost.hasClass('ghosty'))){
+            console.log ('regular ghost has hit pacman')
+            gameOver();
+
+        }else{
+
+            if(ghost.hasClass('ghosty') && $('#'+eTempX+'-'+eTempY).hasClass('pacman') ){
+                //console.log('ghosty moved into PacMan')
+
+
+                let color = '';
+                //TODO: think about a more elegent solution....
+
+                if(ghost.hasClass('pink')){
+                    color = 'pink'
+                }
+
+                if(ghost.hasClass('blue')){
+                    color = 'blue'
+                }
+
+                if(ghost.hasClass('green')){
+                    color = 'green'
+                }
+
+                if(ghost.hasClass('red')){
+                    color = 'red'
+                }
+
+                ghost.removeClass('ghost ghosty '+color);
+                score+=300;
+
+                let pos = ghost.position();
+                genFloatGhost(pos.top, pos.left, color)
+
+            }else{
+                $('#'+ghostX+'-'+ghostY).removeClass(ghostClasses);
+                ghostX = eTempX;
+                ghostY = eTempY;
+                $('#'+ghostX+'-'+ghostY).addClass(ghostClasses);    
+            }
+        }
+
+    }) //end ghost each function
+
+    moveTghost = null;
+	if(gameRunning){
+    setTimeout(moveGhost, 200)		
+	}
+
+} //end moveGhost
+
+function gameOver(result = 'lose'){
+    gameRunning = false;
+    //result will specify if win or lose, lose is default
+    clearTimeout(moveTghost);
+	
+    let message = '';
+
+    if(result == 'win'){
+        message = `<h2>You Win!!!</h2>
+        <div class="option win button">Click here to log your score!</div>`;
+    }else{
+		death.play();
+        message = `<h2>You Lose!</h2>
+        <div class="option lose button">Try Again!</div>`;;
+        
+    }
+
+    $('#grid-container').html(message); 
+    //empties the grid of its squares and inserts the html from message instead
+
+    $('.win').click(function() {
+        //open modal window. Because the button did not exist on this page until now, we have to write the event listener on that button here. Where since our modal window already existed, we can write event listeners for it outside of this function and in its own JS function
+        $('.overlay, .modal').addClass('active');
+        $('input[name="score"]').val(score) 
+    });
+
+    $('.lose').click(function(){
+    	//window.location.reload();
+    	setUpGame();
+    })
+
+} //end gameOver()  
+
+function getRandomInt(min = 1, max = 100){
+    return Math.floor(Math.random() * (max - min + 1 ) + min);
+}
+
+
+
+function getGhosts(){
+    //turns the ghosts into things pacman can eat.
+    $('.ghost').addClass('ghosty');
+        setTimeout( function(){
+   
+        $('.ghosty').removeClass('ghosty');
+    },10000)
+}
+
+function genFloatGhost(top = 1, left = 1, color = ''){
+    let floaty = $('<div>').addClass('floaty').html('<div class="inside"></div>').css({top:top, left:left})
+    $('body').append(floaty);
+    let gCoords = '';
+
+    switch(color){
+        case 'pink':
+        gCoords = pinkGCoords;
+        break;
+
+        case 'blue':
+        gCoords = blueGCoords;
+        break;
+
+        case 'green':
+        gCoords = greenGCoords;
+        break;
+        
+        case 'red':
+        gCoords = redGCoords;
+        break;
+    }
+
+    let aniTop = $(gCoords).position().top;
+    let aniLeft = $(gCoords).position().left;
+    
+    $(floaty).animate({top:aniTop-11, left:aniLeft-5}, 500, function(){
+        //this function is a callback function that happens after the animate function is complete.
+        $(floaty).remove(); //need to replace proper ghost in the coordinate square.
+        
+        if($(gCoords).hasClass('ghost')){
+            let inserted = false
+            $('.start').each( function(){
+            //scan the start spaces, put the ghost into the first item in source order.
+                let space = $(this);
+                if( !(space.hasClass('ghost')) && !inserted ){
+                //there are 4 start spaces. If the original does not get inserted, then this scans all the spaces with the class of start. Checks to see if there is a ghost in it. the nature of each is that it does this for each one. We need a way to check if this had already been done the inserted variable makes sure that this only gets done once and not three times... imagine getting 3 more ghosts.... lol
+                //console.log('scanning...')
+                inserted = true;
+                space.addClass(color + ' ghost') 
+                }
+            })
+
+        }else{
+            //this means that the coords passed are good.
+            $(gCoords).addClass(color + ' ghost')               
+        }
+
+    });//end animate and animate callback function
+
+} //end genFloatGhost
+
+
+/* 
+TODO: 
+1. Adding sound would be awesome...
+
+2. add function to add cherry and have it follow a path... 
+
+3. refactor the movement checks for both ghosts and player and see if we can put them into one function
+
+*/
+
+//function for event listeners on the modal window:
+$('.overlay').click(function(){
+    $('.overlay, .modal').removeClass('active');
+})	
+
+</script>  
+</body>
+</html>
