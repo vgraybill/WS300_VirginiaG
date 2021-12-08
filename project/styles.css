@@ -120,13 +120,13 @@ body {
     top:-1px;
     
 }
-.plant1 {
+.daisy {
     background: url('img/daisyplot.png');
     width: 150px;
     height: 155px;
     margin: 0 auto;
 }
-.plant2 {
+.tulip {
     background: url('img/tulipplot.png');
     width: 150px;
     height: 155px;
@@ -135,4 +135,9 @@ body {
 
 .sell{
     visibility: hidden;
+}
+.alert {
+    position: absolute;
+    top: 60px;
+    left: 0;
 }

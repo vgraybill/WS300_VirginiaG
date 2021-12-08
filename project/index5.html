@@ -47,13 +47,25 @@
 
             <div id="buy-area">
                 <div class="buyplant">
-                    <div id="plant1">0</div>
-                    <p>Plant 1</p>
+                    <div id="daisy"></div>
+                    <p>Daisy</p>
                 </div>
                
                 <div class="buyplant">
-                    <div id="plant2">0</div>
-                    <p>Plant 2</p>
+                    <div id="tulip"></div>
+                    <p>Tulip</p>
+                </div>
+                <div class="buyplant">
+                    <div id="lilac"></div>
+                    <p>Lilac</p>
+                </div>
+                <div class="buyplant">
+                    <div id="gardenia"></div>
+                    <p>Gardenia</p>
+                </div>
+                <div class="buyplant">
+                    <div id="piranha"></div>
+                    <p>Piranha</p>
                 </div>
 
             </div>
@@ -86,7 +98,7 @@
 
         //CODE FOR THE UI
 
-        let playerCoins = 1000;
+        let playerCoins = 500;
         $('#player-coins p').text(playerCoins)
         let seconds = 0;
         let minutes = 0;
@@ -127,7 +139,7 @@
             $('.econ-ui').css({'visibility':'visible'})
             $('#game-mode').removeClass('grow-mode')
             $('#game-mode').addClass('buy-mode')
-            // if ($('.plot').hasClass('full-grown1') || $('.plot').hasClass('full-grown2')){
+            // if ($('.plot').hasClass('full-grown-daisy') || $('.plot').hasClass('full-grown-tulip')){
             //     $(this).find('.sell').css({'visibility':'visible'})
             // }
         }
@@ -143,23 +155,23 @@
 
 //         // if (gameMode = 1){
 
-// vvvvvvvvvvvvvvvvvvvvvvv PLANT varient 1 vvvvvvvvvvvvvvvvvvvvvvvvvvvv
+// vvvvvvvvvvvvvvvvvvvvvvv DAISY STUFF vvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 
-            function buyPlant1(ele){
+            function buyDaisy(ele){
                 //figure out which plot was clicked
                 //check to see if has plant
                 //add plant when clicked
                 var targetPlot = $(ele);
 
                 if (!$(targetPlot).hasClass('planted')){
-                    targetPlot.append('<div class="plant1"></div>')
+                    targetPlot.append('<div class="daisy"></div>')
                     targetPlot.addClass('planted')
                 
                 }
             }
 
-            function flowerGrowth1(ele){
+            function daisyGrowth(ele){
                 let flowerStage
                 let goalAmt = $(ele).attr('data-goal');
                 let amt = $(ele).attr('data-amt');
@@ -176,24 +188,24 @@
                  } else if(amtText > 5 && amtText < 35 ) {
                      flowerStage = 'url("img/daisy1.png")';
                  }
-                $(ele).children('.plant1').css({'background':flowerStage})
+                $(ele).children('.daisy').css({'background':flowerStage})
             }
 
-// vvvvvvvvvvvvvvvvvvvvvvv PLANT varient 2 vvvvvvvvvvvvvvvvvvvvvvvvvvvv
+// vvvvvvvvvvvvvvvvvvvvvvv TULIP STUFF vvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-            function buyPlant2(ele){
+            function buyTulip(ele){
                 //figure out which plot was clicked
                 //check to see if has plant
                 //add plant when clicked
                 var targetPlot = $(ele);
 
                 if (!$(targetPlot).hasClass('planted')){
-                    targetPlot.append('<div class="plant2"></div>')
+                    targetPlot.append('<div class="tulip"></div>')
                     targetPlot.addClass('planted')
                 }
             }
 
-            function flowerGrowth2(ele){
+            function tulipGrowth(ele){
                 let flowerStage
                 let goalAmt = $(ele).attr('data-goal');
                 let amt = $(ele).attr('data-amt');
@@ -210,16 +222,49 @@
                  } else if(amtText > 0 && amtText < 35 ) {
                      flowerStage = 'url("img/tulip1.png")';
                  }
-                $(ele).children('.plant2').css({'background':flowerStage})
+                $(ele).children('.tulip').css({'background':flowerStage})
             }
 
+
+//vvvvvvvvvvvvvvvvvvvvv LILAC STUFF vvvvvvvvvvvvvvvvvvvvvvvvvv
+
+function buyLilac(ele){
+                //figure out which plot was clicked
+                //check to see if has plant
+                //add plant when clicked
+                var targetPlot = $(ele);
+
+                if (!$(targetPlot).hasClass('planted')){
+                    targetPlot.append('<div class="lilac"></div>')
+                    targetPlot.addClass('planted')
+                }
+            }
+
+            function lilacGrowth(ele){
+                let flowerStage
+                let goalAmt = $(ele).attr('data-goal');
+                let amt = $(ele).attr('data-amt');
+                let amtText = Math.round(amt/goalAmt*100)
+                let growthText = $(ele).find('span').css({'width' : amtText+'%'})
+
+                if(amtText >= 100){
+                     flowerStage = 'url("img/lilacfull.png")';
+                     $(ele).find('.sell').css({'visibility':'unset'})
+                 }else if(amtText <= 99 && amtText >= 66){
+                     flowerStage = 'url("img/lilac3.png")';
+                 }else if (amtText >= 35 && amtText < 66){
+                     flowerStage = 'url("img/lilac2.png")';
+                 } else if(amtText > 0 && amtText < 35 ) {
+                     flowerStage = 'url("img/lilac1.png")';
+                 }
+                $(ele).children('.lilac').css({'background':flowerStage})
+            }
 
 
 
 //vvvvvvvvvvvvvvvvvvvv Event Listeners vvvvvvvvvvvvvvvvvvvvvvvvv
     
             $('.buy').on('click dblclick', function (e){
-                console.log(e);
                 $('.buyplant').css({'visibility':'visible'})
                 let theID = $(this).parents('.plot').attr('id');
                 $(this).css({'visibility':'hidden'})
@@ -228,13 +273,12 @@
                     
                 // } )
 
-                $('#plant1').on('click', function(e){ 
+                $('#daisy').on('click', function(e){ 
             
                     if (playerCoins >= 100){
                         let jQEle = $('#'+theID);
                         jQEle.attr('data-goal', 40) 
                         let goalAmount = (jQEle.attr('data-goal')*1);
-                        console.log(goalAmount)
 
                         let timer = setInterval(  function(){
 
@@ -244,40 +288,42 @@
 
                             if(amount+1 > goalAmount){
                                 clearInterval(timer);
-                                $(jQEle).removeClass('planted')
-                                $(jQEle).addClass('full-grown1')
+                                jQEle.removeClass('planted')
+                                jQEle.addClass('full-grown-daisy')
                             }
-                            flowerGrowth1(jQEle[0])
+                            daisyGrowth(jQEle[0])
                             }, 500);
 
-                        buyPlant1(jQEle[0]);
+                        buyDaisy(jQEle[0]);
                         
                         playerCoins=playerCoins-100;
                         $('#player-coins p').text(playerCoins)
-                        $('#plant1').off('click');
-                        $('#plant2').off('click');
+                        $('#daisy').off('click');
+                        $('#tulip').off('click');
                         $('.buyplant').css({'visibility':'hidden'})
                     }else{
-                        alert('You need more coins')
                         let jQEle = $('#'+theID)
-                        $(jQEle).find('.buy').css({'visibility':'unset'})
+                        jQEle.append('<p class="alert">You need more coins!</p>')
+                        $('.alert').animate({'top':'-=50px', 'opacity':'15%'}, 1500, function(){
+                            jQEle.find('.alert').remove()
+                        });
+                        jQEle.find('.buy').css({'visibility':'unset'})
                         $('.buyplant').css({'visibility':'hidden'})
-                        $('#plant1').off('click');
-                        $('#plant2').off('click');
+                        $('#daisy').off('click');
+                        $('#tulip').off('click');
+                        $('#lilac').off('click');
                     }
 
 
 
-                })//end of plant1 click
+                })//end of daisy click
 
-                $('#plant2').on('click', function(e){ 
+                $('#tulip').on('click', function(e){ 
             
-                    console.log(e)
                     if (playerCoins >= 300){
                         let jQEle = $('#'+theID);
                         jQEle.attr('data-goal', 100) 
                         let goalAmount = (jQEle.attr('data-goal')*1);
-                        console.log(goalAmount)
 
                         let timer = setInterval(  function(){
 
@@ -287,27 +333,74 @@
 
                             if(amount+1 > goalAmount){
                                 clearInterval(timer);
-                                $(jQEle).removeClass('planted')
-                                $(jQEle).addClass('full-grown2')
+                                jQEle.removeClass('planted')
+                                jQEle.addClass('full-grown-tulip')
                             }
-                            flowerGrowth2(jQEle[0])
+                            tulipGrowth(jQEle[0])
                             }, 500);
 
-                        buyPlant2(jQEle[0]);
+                        buyTulip(jQEle[0]);
                         playerCoins=playerCoins-300;
                         $('#player-coins p').text(playerCoins)
-                        $('#plant1').off('click');
-                        $('#plant2').off('click');
+                        $('#daisy').off('click');
+                        $('#tulip').off('click');
                         $('.buyplant').css({'visibility':'hidden'})
                     } else {
-                        alert('You need more coins')
                         let jQEle = $('#'+theID)
-                        $(jQEle).find('.buy').css({'visibility':'unset'})
+                        jQEle.append('<p class="alert">You need more coins!</p>')
+                        $('.alert').animate({'top':'-=50px', 'opacity':'15%'}, 1500, function(){
+                            $(this).remove()
+                        });
+                        jQEle.find('.buy').css({'visibility':'unset'})
                         $('.buyplant').css({'visibility':'hidden'})
-                        $('#plant1').off('click');
-                        $('#plant2').off('click');
+                        $('#daisy').off('click');
+                        $('#tulip').off('click');
+                        $('#lilac').off('click');
                     }
-                }) //end of plant2 click
+                }) //end of tulip click
+
+
+            $('#lilac').on('click', function(e){ 
+            
+            if (playerCoins >= 500){
+                let jQEle = $('#'+theID);
+                jQEle.attr('data-goal', 200) 
+                let goalAmount = (jQEle.attr('data-goal')*1);
+                let timer = setInterval(  function(){
+                let amount = (jQEle.attr('data-amt') * 1);
+                    amount++;
+                    jQEle.attr('data-amt', amount);
+
+                    if(amount+1 > goalAmount){
+                        clearInterval(timer);
+                        jQEle.removeClass('planted')
+                        jQEle.addClass('full-grown-lilac')
+                    }
+                    lilacGrowth(jQEle[0])
+                    }, 500);
+
+                buyLilac(jQEle[0]);
+                playerCoins=playerCoins-500;
+                $('#player-coins p').text(playerCoins)
+                $('#daisy').off('click');
+                $('#tulip').off('click');
+                $('#lilac').off('click');
+                $('.buyplant').css({'visibility':'hidden'})
+            } else {
+                let jQEle = $('#'+theID)
+                console.log(jQEle)
+                jQEle.append('<p class="alert">You need more coins!</p>')
+                $('.alert').animate({'top':'-=50px', 'opacity':'15%'}, 1500, function(){
+                    $(this).remove()
+                });
+                jQEle.find('.buy').css({'visibility':'unset'})
+                $('.buyplant').css({'visibility':'hidden'})
+                $('#daisy').off('click');
+                $('#tulip').off('click');
+                $('#lilac').off('click');
+                
+            }
+        }) //end of lilac click
 
                 e.stopPropagation();
                 
@@ -318,11 +411,10 @@
                 let theID = $(this).parents('.plot').attr('id'),
                     jQEle = '#'+theID;
 
-                if ($(this).parents('.plot').hasClass('full-grown1')){
-                    console.log(this)
+                if ($(this).parents('.plot').hasClass('full-grown-daisy')){
 
-                    $(this).parents('.plot').removeClass('full-grown1');
-                    $(jQEle).find('.plant1').remove();
+                    $(this).parents('.plot').removeClass('full-grown-daisy');
+                    $(jQEle).find('.daisy').remove();
                     $(this).css({'visibility':'hidden'});
                     $(this).siblings('.buy').css({'visibility':'unset'});
                     $(jQEle).attr('data-amt', 0);
@@ -336,16 +428,29 @@
 
 
                     
-                } else if ($(this).parents('.plot').hasClass('full-grown2')){
-                    console.log(this)
+                } else if ($(this).parents('.plot').hasClass('full-grown-tulip')){
 
-                    $(this).parents('.plot').removeClass('full-grown2');
-                    $(jQEle).find('.plant2').remove();
+                    $(this).parents('.plot').removeClass('full-grown-tulip');
+                    $(jQEle).find('.tulip').remove();
                     $(this).css({'visibility':'hidden'});
                     $(this).siblings('.buy').css({'visibility':'unset'});
                     $(jQEle).attr('data-amt', 0);
                     $(this).siblings('div').find('span').css({'width': 0})
                     playerCoins=playerCoins+500;
+                    $('#player-coins p').text(playerCoins)
+                    //$(jQEle).childen('div').remove();
+               
+               
+               
+                } else if ($(this).parents('.plot').hasClass('full-grown-lilac')){
+
+                    $(this).parents('.plot').removeClass('full-grown-lilac');
+                    $(jQEle).find('.lilac').remove();
+                    $(this).css({'visibility':'hidden'});
+                    $(this).siblings('.buy').css({'visibility':'unset'});
+                    $(jQEle).attr('data-amt', 0);
+                    $(this).siblings('div').find('span').css({'width': 0})
+                    playerCoins=playerCoins+700;
                     $('#player-coins p').text(playerCoins)
                     //$(jQEle).childen('div').remove();
                 }
@@ -358,7 +463,6 @@
                 let amount = $(this).attr('data-amt')
                 let goalAmt = ($(this).attr('data-goal')*1)
                 let amtText = Math.round(amount/goalAmt*100)
-                console.log(amount)
                 amount = amount*1
                 $(this).attr('data-amt', amount)
                 if (minutes>=5){
