@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        'use strict';
+        function wait(ms=0){
+            return new Promise( (resolve) => {
+                setTimeout(resolve,ms)
+            })
+        }
+
+        function makePizza(toppings = []){
+            return new Promise(function (resolve, reject){
+                if(toppings.includes('pineapple')){
+                    reject('Seriously? Get off my pizza')
+                }
+
+                const amountOfTimeToBake = 500 + (toppings.length *200)
+                setTimeout( function(){
+                    resolve(`Here is your pizza with the toppings: ${toppings.join(' ')}`)
+                }, amountOfTimeToBake)
+            }).catch(Error)
+        }
+
+        async function makeDinner(){
+            const pizza1 = await makePizza(['pepperoni']);
+            const pizza2 = await makePizza(['pineapple']);
+            const pizza3 = await makePizza(['bacon', 'sausage'])
+
+            const [first, second, third] = await Promise.all([pizza1, pizza2, pizza3])
+            console.log(first, second, third);
+        }
+
+        makeDinner();
+
+    </script>
+</body>
+</html>
