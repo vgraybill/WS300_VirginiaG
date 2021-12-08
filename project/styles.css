@@ -107,7 +107,11 @@ body {
 }
 .sell {
     position: relative;
-    top: -35px;
+    top: -15px;
+}
+.buy {
+    position: relative;
+    top: 25px;
 }
 .growth span {
     width:0%;
@@ -140,4 +144,8 @@ body {
     position: absolute;
     top: 60px;
     left: 0;
+    width: 150%;
+}
+p::selection, div::selection {
+    background: transparent;
 }
