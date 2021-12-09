@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Using the AJAX Function</title>
+	<style type="text/css">
+		body{
+			font-size: 20px;
+			font-family: Verdana;
+			margin: 0 auto;
+			padding: 1em;
+		}
+
+		#content{
+			padding: 5px;
+			border: 2px dashed lightgray;
+		}
+
+	</style>
+</head>
+<body>
+<p>If successful, the returned data will appear below.</p>
+<div id="content"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+function getData(){
+    const flickrAPI = 'https://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?';
+
+    $.getJSON(flickrAPI, { tags:'cat', tagmode: 'any', format: 'json'}, successFn)
+} //end get data
+
+function successFn(d){
+    console.log(d)
+
+    $.each(d.items, function(i,item){
+        $('<img>').attr('src', item.media.m).appendTo('#content');
+        if(i === 4){
+            return false;
+        }
+    })
+}
+getData();
+
+
+
+</script>
+</body>
+</html>

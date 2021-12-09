@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Using the AJAX Function</title>
+	<style type="text/css">
+		body{
+			font-size: 20px;
+			font-family: Verdana;
+			margin: 0 auto;
+			padding: 1em;
+		}
+
+		#content{
+			padding: 5px;
+			border: 2px dashed lightgray;
+		}
+
+	</style>
+</head>
+<body>
+<p>If successful, the returned data will appear below.</p>
+<div id="content"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+$.ajax({
+	url: 'data/testdata.txt', // path to data
+	type: 'GET', //gets data, does not send
+	dataType: 'text', //the type of data we expect to get
+	success: successFn, //run the successFn
+	error: errorFn, // run the errorFn if theres a problem
+	complete: function(xhr, status){
+		console.log("the request is complete. Status:", status);
+	}
+})
+
+function successFn(data){
+	console.log(data)
+	$('#content').text(data);
+}
+
+function errorFn(xhr, status, strErr){
+	console.log("There was an error: "+strErr)
+}
+
+
+
+
+</script>
+</body>
+</html>

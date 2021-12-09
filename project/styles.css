@@ -29,7 +29,6 @@ body {
     font-family: 'Fredoka One', cursive;
     width: 950px;
     height: 50px;
-    background-color: blanchedalmond;
     margin: 0 auto;
     position: relative;
     top: 25px;
@@ -38,11 +37,15 @@ body {
 }
 #ui div{
     width: 30%;
-    background: #fab;
     font-size: 2rem;
+    justify-content: space-evenly;
+    -webkit-text-stroke: 1px rgb(129, 136, 156);
+    
 }
 #ui div p {
-    padding-left: 20px;
+    padding-left: 25px;
+    padding-top: 11px;
+
 }
 #game-mode {
     text-align: center;
@@ -90,6 +93,7 @@ body {
     position: absolute;
     top: 90px;
     left:15px;
+    -webkit-text-stroke: 1px rgb(99, 104, 119);
 }
 .plot .econ-ui p {
     padding-bottom: 8px;

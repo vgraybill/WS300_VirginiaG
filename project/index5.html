@@ -30,17 +30,17 @@
                 <!-- this is the ui will be -->                
                 <div class="flex" id="universal-timer">
                     <!-- how much time has passed since the game loaded -->
-                    <img src="timericon">
+                    <img src="img/timericon.png">
                     <p>0</p>
                 </div>
                 <div class="flex" id="player-coins">
                     <!-- how much money the player has -->
-                    <img src="coinicon">
+                    <img src="img/coinicon.png">
                     <p>0</p>
                 </div>
                 <!-- which game mode the game is in currently, starts in grow, can be switched to .shop-mode -->
                 <div id="game-mode" class="buy-mode">
-                    Hide UI
+                    <p>Hide UI</p>
                 </div>
 
             </div>
@@ -134,13 +134,13 @@
         
     $('#game-mode').on('click', function(){
         if($('#game-mode').hasClass('buy-mode')) {
-            $('#game-mode').text('Show UI')
+            $('#game-mode p').text('Show UI')
             $('.econ-ui').css({'visibility':'hidden'})
             $('#game-mode').removeClass('buy-mode')
             $('#game-mode').addClass('grow-mode')
         }
         else if ($('#game-mode').hasClass('grow-mode')){
-            $('#game-mode').text('Hide UI')
+            $('#game-mode p').text('Hide UI')
             $('.econ-ui').css({'visibility':'visible'})
             $('#game-mode').removeClass('grow-mode')
             $('#game-mode').addClass('buy-mode')
@@ -430,7 +430,7 @@
                 let theID = $(this).parents('.plot').attr('id'),
                     jQEle = '#'+theID;
 
-                await wait(500)
+                await wait(250)
 
 
                 if ($(this).parents('.plot').hasClass('full-grown-daisy')){

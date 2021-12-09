@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Using the AJAX Function</title>
+	<style type="text/css">
+		body{
+			font-size: 20px;
+			font-family: Verdana;
+			margin: 0 auto;
+			padding: 1em;
+		}
+
+		#content{
+			padding: 5px;
+			border: 2px dashed lightgray;
+		}
+
+	</style>
+</head>
+<body>
+<p><label>Search Flickr for: </label><input type="text" id="tags" placeholder="Search Terms"> <button id="search">Search</button></p>
+<div id="content"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+    'use strict';
+
+    //iife immediately invoking function expression:
+
+    ( function(){
+        //all code goes in here
+
+
+
+    
+
+
+    $('#search').click (function() {
+        let theTag = $('#tags').val() || 'cats';
+        $('#content').text('');
+        getData(theTag);
+    })
+
+function getData(tag){
+    const flickrAPI = 'https://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?';
+
+    $.getJSON(flickrAPI, { tags: tag , tagmode: 'any', format: 'json'}, successFn)
+} //end get data
+
+function successFn(d){
+    console.log(d)
+
+    $.each(d.items, function(i,item){
+        $('<img>').attr('src', item.media.m).appendTo('#content');
+        if(i === 10){
+            return false;
+        }
+    })
+}
+
+
+})();
+
+
+
+</script>
+</body>
+</html>
