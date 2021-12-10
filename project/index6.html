@@ -31,12 +31,12 @@
                 <div class="flex" id="universal-timer">
                     <!-- how much time has passed since the game loaded -->
                     <img src="img/timericon.png">
-                    <p>0</p>
+                    <p>-:--:--</p>
                 </div>
                 <div class="flex" id="player-coins">
                     <!-- how much money the player has -->
                     <img src="img/coinicon.png">
-                    <p>0</p>
+                    <p>---</p>
                 </div>
                 <!-- which game mode the game is in currently, starts in grow, can be switched to .shop-mode -->
                 <div id="game-mode" class="buy-mode">
@@ -76,6 +76,10 @@
                 
             </div>
 
+            <div class="bottom-ui flex">
+                <div class="total-clicks"><span>---</span> Clicks</div>
+                <div class="click-multiplier">+<span>0</span> Grow Bonus</div>
+            </div>
         </section>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -102,13 +106,18 @@
         }
 
         //CODE FOR THE UI
-
-        let playerCoins = 500;
+        
+        let playerCoins = '---'
         $('#player-coins p').text(playerCoins)
         let seconds = 0;
         let minutes = 0;
         let hours = 0;
-        let currenttime=0;
+        let currenttime= localStorage.getItem('currenttime');
+        let totalClicks = localStorage.getItem('clicks');
+        let bonusAmount = 1;
+        
+
+        
        
         let howLong = setInterval( function (){
             currenttime++;
@@ -128,20 +137,36 @@
            }
        
     $('#universal-timer p').text(hours+':'+ minutes +':'+seconds)
+    $('.total-clicks span').text(totalClicks)
+    $('#player-coins p').text(playerCoins)
+    $('.click-multiplier span').text(bonusAmount)
+
+    populateStorage()
     
     }, 1000)//end timerTick()
+
+
+    function populateStorage() {
+        localStorage.setItem('currenttime', currenttime);
+        localStorage.setItem('coins', playerCoins);
+        localStorage.setItem('clicks', totalClicks);
+    }
+    playerCoins = localStorage.getItem('coins')
+
 
         
     $('#game-mode').on('click', function(){
         if($('#game-mode').hasClass('buy-mode')) {
             $('#game-mode p').text('Show UI')
             $('.econ-ui').css({'visibility':'hidden'})
+            $('.growth').css({'opacity':'40%'})
             $('#game-mode').removeClass('buy-mode')
             $('#game-mode').addClass('grow-mode')
         }
         else if ($('#game-mode').hasClass('grow-mode')){
             $('#game-mode p').text('Hide UI')
             $('.econ-ui').css({'visibility':'visible'})
+            $('.growth').css({'opacity':'100%'})
             $('#game-mode').removeClass('grow-mode')
             $('#game-mode').addClass('buy-mode')
             // if ($('.plot').hasClass('full-grown-daisy') || $('.plot').hasClass('full-grown-tulip')){
@@ -157,8 +182,6 @@
 
         // ------------------------------
         // ------------------------------
-
-//         // if (gameMode = 1){
 
 // vvvvvvvvvvvvvvvvvvvvvvv DAISY STUFF vvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
@@ -184,8 +207,12 @@
                 let growthText = $(ele).find('.growth span').css({'width' : amtText+'%'})
 
                 if(amtText >= 100){
+                    async function sellWait(){
                      flowerStage = 'url("img/daisyfull.png")';
+                     await wait(1500)
                      $(ele).find('.sell').css({'visibility':'unset'})
+                    }
+                    sellWait();
                  }else if(amtText <= 99 && amtText >= 66){
                      flowerStage = 'url("img/daisy3.png")';
                  }else if (amtText >= 35 && amtText < 66){
@@ -218,8 +245,12 @@
                 let growthText = $(ele).find('span').css({'width' : amtText+'%'})
 
                 if(amtText >= 100){
+                    async function sellWait(){
                      flowerStage = 'url("img/tulipfull.png")';
+                     await wait(1500)
                      $(ele).find('.sell').css({'visibility':'unset'})
+                    }
+                    sellWait();
                  }else if(amtText <= 99 && amtText >= 66){
                      flowerStage = 'url("img/tulip3.png")';
                  }else if (amtText >= 35 && amtText < 66){
@@ -253,8 +284,12 @@
                 let growthText = $(ele).find('span').css({'width' : amtText+'%'})
 
                 if(amtText >= 100){
+                    async function sellWait(){
                      flowerStage = 'url("img/lilacfull.png")';
+                     await wait(1500)
                      $(ele).find('.sell').css({'visibility':'unset'})
+                    }
+                    sellWait();
                  }else if(amtText <= 99 && amtText >= 66){
                      flowerStage = 'url("img/lilac3.png")';
                  }else if (amtText >= 35 && amtText < 66){
@@ -270,6 +305,8 @@
 //vvvvvvvvvvvvvvvvvvvv Event Listeners vvvvvvvvvvvvvvvvvvvvvvvvv
     
             $('.buy').on('click dblclick', function (e){
+
+
 
                 $('.buyplant').css({'visibility':'visible'})
                 let theID = $(this).parents('.plot').attr('id');
@@ -481,25 +518,60 @@
 
 
 
+
+
             $('.plot').on('click', function(ele){
                 let amount = $(this).attr('data-amt')
                 let goalAmt = ($(this).attr('data-goal')*1)
                 let amtText = Math.round(amount/goalAmt*100)
                 amount = amount*1
+                totalClicks ++;
+                playerCoins ++;
+                $('.total-clicks span').text(totalClicks);
+                $('#player-coins p').text(playerCoins)
                 $(this).attr('data-amt', amount)
                 let currPlot = $(this)
-                if (currenttime>=300){
-                    amount=amount+5;
+                bonusAmount = 0
+                if (currenttime>=300){ //after 5 minutes
+                    amount=amount+3;
                     currPlot.attr('data-amt', amount)
+                    bonusAmount = 3
                 } 
-                if (currenttime >= 600){
-                    amount = amount+10;
+                if (currenttime >= 600){ //after 10 minutes
+                    amount = amount+5;
                     currPlot.attr('data-amt', amount)
+                    bonusAmount = 5
                 } else {
-                    amount = amount+3
+                    amount = amount+1
                     currPlot.attr('data-amt', amount)
+                    bonusAmount = 1
                 }
+                $('.click-multiplier span').text(bonusAmount)
             })
+
+            if (currenttime>=300){ //after 5 minutes
+                    bonusAmount = 3
+                } 
+                if (currenttime >= 600){ //after 10 minutes
+                    bonusAmount = 5
+                } else {
+                    bonusAmount = 1
+                }
+                $('.click-multiplier span').text(bonusAmount)
+
+
+
+            $('.plot').on('click', function(e){
+                let rand = getRandInt(1,3)
+                $('<p>').text('+').addClass('click').appendTo('body').css({'position':'absolute', 'left':e.pageX+'px', 'top':e.pageY+'px'}).animate({'top':'-=50px', 'opacity':'15%', 'font-size': rand+'rem'}, 1500, function(){
+                $(this).remove()
+                });
+            })
+
+            function getRandInt(min=1,max=5) {
+                return Math.floor(Math.random()*(max-min+1)) + min;
+            }
+           
 
 //make UI toggle next!
 //sparkles when the UI is toggled off?

@@ -12,8 +12,10 @@ font-family: 'Varela Round', sans-serif;
 
 body {
     font-family:'Varela Round', sans-serif;
+  
     color : white;
     letter-spacing: .15rem;
+    cursor: default;
 }
 .flex{
     display: flex;
@@ -37,14 +39,14 @@ body {
 }
 #ui div{
     width: 30%;
-    font-size: 2rem;
-    justify-content: space-evenly;
+    font-size: 2.5rem;
+    padding: 0 20px 0;
     -webkit-text-stroke: 1px rgb(129, 136, 156);
     
 }
 #ui div p {
-    padding-left: 25px;
-    padding-top: 11px;
+    padding-left: 50px;
+    padding-top: 5px;
 
 }
 #game-mode {
@@ -93,7 +95,7 @@ body {
     position: absolute;
     top: 90px;
     left:15px;
-    -webkit-text-stroke: 1px rgb(99, 104, 119);
+    text-shadow: -2px 0 rgb(129, 136, 156), 0 2px rgb(129, 136, 156), 2px 0 rgb(129, 136, 156), 0 -2px rgb(129, 136, 156);
 }
 .plot .econ-ui p {
     padding-bottom: 8px;
@@ -150,6 +152,20 @@ body {
     left: 0;
     width: 150%;
 }
-p::selection, div::selection {
+p::selection, div::selection, span::selection {
     background: transparent;
+}
+
+.bottom-ui {
+    position: relative;
+    top: 150px;
+    width: 70%;
+    justify-content: space-around;
+    margin: 0 auto;
+    font-weight: bold;
+}
+.bottom-ui div {
+    width: 50%;
+    font-size: 2.5rem;
+    text-shadow: -2px 0 rgb(129, 136, 156), 0 2px rgb(129, 136, 156), 2px 0 rgb(129, 136, 156), 0 -2px rgb(129, 136, 156); 
 }

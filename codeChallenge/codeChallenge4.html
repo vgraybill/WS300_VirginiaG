@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Challenge 3</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 50px auto;
+            box-sizing: border-box;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        div {
+            position: relative;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            display: flex;
+        }
+        #d1 {
+            background-color: cornflowerblue;
+            
+        }
+        #d2 {
+            background-color: #fab;
+        }
+        p {
+            padding-left: 10px;
+            font-weight: bolder;
+        }
+        span {
+            font-weight: normal;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="d1">
+        <p>x:<span></span></p>
+        <p>y:<span></span></p>
+    </div>
+    <div id="d2">
+        <p>x:<span></span></p>
+        <p>y:<span></span></p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        $(window).on('mousemove', function(e){
+            console.log(e.pageX)
+            let myDiv = $('#d1')
+            myDiv.css({'width':e.pageX+'px'})
+            $('#d1 p:first-of-type span').text(e.pageX)
+            $('#d1 p:last-of-type span').text(e.pageY)
+        })
+
+        $(window).on('click', function(e){
+            let myDiv = $('#d2')
+            myDiv.css({'width':e.pageX+'px'})
+            $('#d2 p:first-of-type span').text(e.pageX)
+            $('#d2 p:last-of-type span').text(e.pageY)
+
+        })
+
+
+    </script>
+</body>
+</html>
