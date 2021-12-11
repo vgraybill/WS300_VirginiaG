@@ -26,6 +26,7 @@ body {
     height: 700px;
     background:url('img/background.png');
     margin: 0 auto;
+    border-radius: 20px;
 }
 #ui {
     font-family: 'Fredoka One', cursive;
@@ -40,12 +41,12 @@ body {
 #ui div{
     width: 30%;
     font-size: 2.5rem;
-    padding: 0 20px 0;
+    padding: 0 20px 0 0;
     -webkit-text-stroke: 1px rgb(129, 136, 156);
     
 }
 #ui div p {
-    padding-left: 50px;
+    padding-left: 40px;
     padding-top: 5px;
 
 }
@@ -64,15 +65,27 @@ body {
 }
 .buyplant {
     width: 100px;
-    height: 70px;
+    height: 60px;
     margin: 10px 0 5px 10px;
     background: aliceblue;
     visibility: hidden;
 }
+.buyplant p {
+    line-height: 1.25rem;
+    padding-top: 3px;
+}
+.buyplant p img {
+    width: 17px;
+    padding-right: 5px;
+}
 .buyplant div {
     width: 100px;
-    height: 70px;
+    height: 75px;
     background: aliceblue;
+}
+.buyplant .info {
+    text-align: center;
+    background-color: transparent;
 }
 #grow-area {
     font-family: 'Fredoka One', cursive;
@@ -142,6 +155,18 @@ body {
     height: 155px;
     margin: 0 auto;
 }
+.lilac {
+    background: url('img/lilacplot.png');
+    width: 150px;
+    height: 155px;
+    margin: 0 auto;
+}
+.gardenia {
+    background: url('img/gardeniaplot.png');
+    width: 150px;
+    height: 155px;
+    margin: 0 auto;
+}
 
 .sell{
     visibility: hidden;
@@ -168,4 +193,9 @@ p::selection, div::selection, span::selection {
     width: 50%;
     font-size: 2.5rem;
     text-shadow: -2px 0 rgb(129, 136, 156), 0 2px rgb(129, 136, 156), 2px 0 rgb(129, 136, 156), 0 -2px rgb(129, 136, 156); 
+}
+.click {
+    color: rgb(255, 251, 0);
+    font-weight: bold;
+    /* text-shadow: 0 0 2px white; */
 }

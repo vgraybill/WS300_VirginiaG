@@ -22,7 +22,7 @@
     </nav>
     </header>
 
-    <main>
+    <main draggable="false">
         <!-- The game lives here -->
         <section id="game-area">
             <!-- this is the main game stage -->
@@ -39,7 +39,8 @@
                     <p>---</p>
                 </div>
                 <!-- which game mode the game is in currently, starts in grow, can be switched to .shop-mode -->
-                <div id="game-mode" class="buy-mode">
+                <div id="game-mode" class="buy-mode flex">
+                    <img src="img/enabled.png">
                     <p>Hide UI</p>
                 </div>
 
@@ -48,29 +49,39 @@
             <div id="buy-area">
                 <div class="buyplant">
                     <div id="daisy"></div>
-                    <p>Daisy</p>
+                    <div class="info">
+                        <p><img src="img/coinicon.png">100</p>
+                    </div>
                 </div>
                
                 <div class="buyplant">
                     <div id="tulip"></div>
-                    <p>Tulip</p>
+                    <div class="info">
+                        <p><img src="img/coinicon.png">300</p>
+                    </div>
                 </div>
                 <div class="buyplant">
                     <div id="lilac"></div>
-                    <p>Lilac</p>
+                    <div class="info">
+                        <p><img src="img/coinicon.png">600</p>
+                    </div>
                 </div>
                 <div class="buyplant">
                     <div id="gardenia"></div>
-                    <p>Gardenia</p>
+                    <div class="info">
+                        <p><img src="img/coinicon.png">1000</p>
+                    </div>
                 </div>
                 <div class="buyplant">
                     <div id="piranha"></div>
-                    <p>Piranha</p>
+                    <div class="info">
+                        <p><img src="img/coinicon.png">1500</p>
+                    </div>
                 </div>
 
             </div>
 
-            <div id="grow-area">
+            <div draggable="false" id="grow-area">
                 <!-- this is the growing patch -->
                
                 
@@ -100,7 +111,7 @@
         // let plot = '';
 
         for(let i = 0; i < theLength; i++){
-            let plot = $('<div>').attr('id', items[i]).addClass('plot').html('<div class="econ-ui"><p class="buy">Buy</p><p class="sell">Sell</p><div class="growth"><span></span></div>').attr('data-amt', 0).attr('data-goal', 0);
+            let plot = $('<div>').attr('id', items[i]).addClass('plot').html('<div class="econ-ui" draggable="false"><p class="buy" draggable="false">Buy</p><p class="sell" draggable="false">Sell</p><div class="growth"><span></span></div>').attr('data-amt', 0).attr('data-goal', 0);
 
             growArea.append(plot)
         }
@@ -114,7 +125,7 @@
         let hours = 0;
         let currenttime= localStorage.getItem('currenttime');
         let totalClicks = localStorage.getItem('clicks');
-        let bonusAmount = 1;
+        let bonusAmount;
         
 
         
@@ -153,10 +164,15 @@
     }
     playerCoins = localStorage.getItem('coins')
 
+    if (playerCoins == null){
+        playerCoins = 500*1
+    }
+
 
         
     $('#game-mode').on('click', function(){
         if($('#game-mode').hasClass('buy-mode')) {
+            $('#game-mode').html('<img src="img/disabled.png"><p></p>')
             $('#game-mode p').text('Show UI')
             $('.econ-ui').css({'visibility':'hidden'})
             $('.growth').css({'opacity':'40%'})
@@ -164,6 +180,7 @@
             $('#game-mode').addClass('grow-mode')
         }
         else if ($('#game-mode').hasClass('grow-mode')){
+            $('#game-mode').html('<img src="img/enabled.png"><p></p>')
             $('#game-mode p').text('Hide UI')
             $('.econ-ui').css({'visibility':'visible'})
             $('.growth').css({'opacity':'100%'})
@@ -301,6 +318,45 @@
             }
 
 
+//vvvvvvvvvvvvvvvvvvvvvv GARDENIA STUFF vvvvvvvvvvvvvvvvv
+
+            function buyGardenia(ele){
+                //figure out which plot was clicked
+                //check to see if has plant
+                //add plant when clicked
+                var targetPlot = $(ele);
+
+                if (!$(targetPlot).hasClass('planted')){
+                    targetPlot.append('<div class="gardenia"></div>')
+                    targetPlot.addClass('planted')
+                }
+            }
+
+            function gardeniaGrowth(ele){
+                let flowerStage
+                let goalAmt = $(ele).attr('data-goal');
+                let amt = $(ele).attr('data-amt');
+                let amtText = Math.round(amt/goalAmt*100)
+                let growthText = $(ele).find('span').css({'width' : amtText+'%'})
+
+                if(amtText >= 100){
+                    async function sellWait(){
+                     flowerStage = 'url("img/gardeniafull.png")';
+                     await wait(1500)
+                     $(ele).find('.sell').css({'visibility':'unset'})
+                    }
+                    sellWait();
+                 }else if(amtText <= 99 && amtText >= 66){
+                     flowerStage = 'url("img/gardenia3.png")';
+                 }else if (amtText >= 35 && amtText < 66){
+                     flowerStage = 'url("img/gardenia2.png")';
+                 } else if(amtText > 0 && amtText < 35 ) {
+                     flowerStage = 'url("img/gardenia1.png")';
+                 }
+                $(ele).children('.gardenia').css({'background':flowerStage})
+            }
+
+
 
 //vvvvvvvvvvvvvvvvvvvv Event Listeners vvvvvvvvvvvvvvvvvvvvvvvvv
     
@@ -345,11 +401,13 @@
                         $('#tulip').off('click');
                         $('#lilac').off('click');
                         $('#gardenia').off('click');
+                        $('#piranha').off('click');
 
                         $('.buyplant').css({'visibility':'hidden'})
                     }else{
                         let jQEle = $('#'+theID)
                         jQEle.append('<p class="alert">You need more coins!</p>')
+                        $('.alert').css({'top':(getRandInt(2,7)*20)+'px'})
                         $('.alert').animate({'top':'-=50px', 'opacity':'15%'}, 1500, function(){
                             jQEle.find('.alert').remove()
                         });
@@ -359,6 +417,7 @@
                         $('#tulip').off('click');
                         $('#lilac').off('click');
                         $('#gardenia').off('click');
+                        $('#piranha').off('click');
                     }
 
 
@@ -369,7 +428,7 @@
             
                     if (playerCoins >= 300){
                         let jQEle = $('#'+theID);
-                        jQEle.attr('data-goal', 100) 
+                        jQEle.attr('data-goal', 80) 
                         let goalAmount = (jQEle.attr('data-goal')*1);
 
                         let timer = setInterval(  function(){
@@ -393,11 +452,13 @@
                         $('#tulip').off('click');
                         $('#lilac').off('click');
                         $('#gardenia').off('click');
+                        $('#piranha').off('click');
 
                         $('.buyplant').css({'visibility':'hidden'})
                     } else {
                         let jQEle = $('#'+theID)
                         jQEle.append('<p class="alert">You need more coins!</p>')
+                        $('.alert').css({'top':(getRandInt(2,7)*20)+'px'})
                         $('.alert').animate({'top':'-=50px', 'opacity':'15%'}, 1500, function(){
                             $(this).remove()
                         });
@@ -407,15 +468,16 @@
                         $('#tulip').off('click');
                         $('#lilac').off('click');
                         $('#gardenia').off('click');
+                        $('#piranha').off('click');
                     }
                 }) //end of tulip click
 
 
             $('#lilac').on('click', function(e){ 
             
-            if (playerCoins >= 500){
+            if (playerCoins >= 600){
                 let jQEle = $('#'+theID);
-                jQEle.attr('data-goal', 200) 
+                jQEle.attr('data-goal', 160) 
                 let goalAmount = (jQEle.attr('data-goal')*1);
                 let timer = setInterval(  function(){
                 let amount = (jQEle.attr('data-amt') * 1);
@@ -431,18 +493,21 @@
                     }, 500);
 
                 buyLilac(jQEle[0]);
-                playerCoins=playerCoins-500;
+                playerCoins=playerCoins-600;
                 $('#player-coins p').text(playerCoins)
                 $('#daisy').off('click');
                 $('#tulip').off('click');
                 $('#lilac').off('click');
                 $('#gardenia').off('click');
+                $('#piranha').off('click');
 
                 $('.buyplant').css({'visibility':'hidden'})
             } else {
                 let jQEle = $('#'+theID)
+                let rand = getRandInt(1,5)
                 console.log(jQEle)
                 jQEle.append('<p class="alert">You need more coins!</p>')
+                $('.alert').css({'top':(getRandInt(2,7)*20)+'px'})
                 $('.alert').animate({'top':'-=50px', 'opacity':'15%'}, 1500, function(){
                     $(this).remove()
                 });
@@ -452,22 +517,71 @@
                 $('#tulip').off('click');
                 $('#lilac').off('click');
                 $('#gardenia').off('click');
+                $('#piranha').off('click');
                 
             }
         }) //end of lilac click
+
+        $('#gardenia').on('click', function(e){ 
+            
+            if (playerCoins >= 1000){
+                let jQEle = $('#'+theID);
+                jQEle.attr('data-goal', 320) 
+                let goalAmount = (jQEle.attr('data-goal')*1);
+                let timer = setInterval(  function(){
+                let amount = (jQEle.attr('data-amt') * 1);
+                    amount++;
+                    jQEle.attr('data-amt', amount);
+
+                    if(amount+1 > goalAmount){
+                        clearInterval(timer);
+                        jQEle.removeClass('planted')
+                        jQEle.addClass('full-grown-gardenia')
+                    }
+                    gardeniaGrowth(jQEle[0])
+                    }, 500);
+
+                buyGardenia(jQEle[0]);
+                playerCoins=playerCoins-1000;
+                $('#player-coins p').text(playerCoins)
+                $('#daisy').off('click');
+                $('#tulip').off('click');
+                $('#lilac').off('click');
+                $('#gardenia').off('click');
+                $('#piranha').off('click');
+
+                $('.buyplant').css({'visibility':'hidden'})
+            } else {
+                let jQEle = $('#'+theID)
+                let rand = getRandInt(1,5)
+                console.log(jQEle)
+                jQEle.append('<p class="alert">You need more coins!</p>')
+                $('.alert').css({'top':(getRandInt(2,7)*20)+'px'})
+                $('.alert').animate({'top':'-=50px', 'opacity':'15%'}, 1500, function(){
+                    $(this).remove()
+                });
+                jQEle.find('.buy').css({'visibility':'unset'})
+                $('.buyplant').css({'visibility':'hidden'})
+                $('#daisy').off('click');
+                $('#tulip').off('click');
+                $('#lilac').off('click');
+                $('#gardenia').off('click');
+                $('#piranha').off('click');
+                
+            }
+        }) //end of gardenia click
 
                 e.stopPropagation();
                 
                 
             })
 
+// vvvvvvvvvvvvvvvvvvvv SELL FUNCTIONS vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-
-            $('.sell').on('click dblclick', async function (e){
+            $('.sell').on('click dblclick',  function (e){
                 let theID = $(this).parents('.plot').attr('id'),
                     jQEle = '#'+theID;
 
-                await wait(250)
 
 
                 if ($(this).parents('.plot').hasClass('full-grown-daisy')){
@@ -481,12 +595,7 @@
 
                     playerCoins=playerCoins+200;
                     $('#player-coins p').text(playerCoins)
-
-
-                    //$(jQEle).childen('div').remove();
-
-
-                    
+         
                 } else if ($(this).parents('.plot').hasClass('full-grown-tulip')){
 
                     $(this).parents('.plot').removeClass('full-grown-tulip');
@@ -497,10 +606,7 @@
                     $(this).siblings('div').find('span').css({'width': 0})
                     playerCoins=playerCoins+500;
                     $('#player-coins p').text(playerCoins)
-                    //$(jQEle).childen('div').remove();
-               
-               
-               
+
                 } else if ($(this).parents('.plot').hasClass('full-grown-lilac')){
 
                     $(this).parents('.plot').removeClass('full-grown-lilac');
@@ -509,9 +615,19 @@
                     $(this).siblings('.buy').css({'visibility':'unset'});
                     $(jQEle).attr('data-amt', 0);
                     $(this).siblings('div').find('span').css({'width': 0})
-                    playerCoins=playerCoins+700;
+                    playerCoins=playerCoins+900;
                     $('#player-coins p').text(playerCoins)
-                    //$(jQEle).childen('div').remove();
+
+                } else if ($(this).parents('.plot').hasClass('full-grown-gardenia')){
+
+                    $(this).parents('.plot').removeClass('full-grown-gardenia');
+                    $(jQEle).find('.gardenia').remove();
+                    $(this).css({'visibility':'hidden'});
+                    $(this).siblings('.buy').css({'visibility':'unset'});
+                    $(jQEle).attr('data-amt', 0);
+                    $(this).siblings('div').find('span').css({'width': 0})
+                    playerCoins=playerCoins+1400;
+                    $('#player-coins p').text(playerCoins)
                 }
 
             })
@@ -532,15 +648,15 @@
                 $(this).attr('data-amt', amount)
                 let currPlot = $(this)
                 bonusAmount = 0
-                if (currenttime>=300){ //after 5 minutes
-                    amount=amount+3;
-                    currPlot.attr('data-amt', amount)
-                    bonusAmount = 3
-                } 
                 if (currenttime >= 600){ //after 10 minutes
                     amount = amount+5;
                     currPlot.attr('data-amt', amount)
                     bonusAmount = 5
+                } 
+                else if (currenttime >= 300){ //after 5 minutes
+                    amount = amount+3;
+                    currPlot.attr('data-amt', amount)
+                    bonusAmount = 3
                 } else {
                     amount = amount+1
                     currPlot.attr('data-amt', amount)
@@ -549,26 +665,29 @@
                 $('.click-multiplier span').text(bonusAmount)
             })
 
-            if (currenttime>=300){ //after 5 minutes
-                    bonusAmount = 3
-                } 
-                if (currenttime >= 600){ //after 10 minutes
+                if (currenttime >= 600){ //after 5 minutes
                     bonusAmount = 5
+                    $('.click-multiplier span').text(bonusAmount)
+                } 
+                else if (currenttime >= 300){ //after 10 minutes
+                    bonusAmount = 3
+                    $('.click-multiplier span').text(bonusAmount)
                 } else {
                     bonusAmount = 1
+                    $('.click-multiplier span').text(bonusAmount)
                 }
-                $('.click-multiplier span').text(bonusAmount)
+                //$('.click-multiplier span').text(bonusAmount)
 
 
 
             $('.plot').on('click', function(e){
                 let rand = getRandInt(1,3)
-                $('<p>').text('+').addClass('click').appendTo('body').css({'position':'absolute', 'left':e.pageX+'px', 'top':e.pageY+'px'}).animate({'top':'-=50px', 'opacity':'15%', 'font-size': rand+'rem'}, 1500, function(){
+                $('<p>').text('•').addClass('click').appendTo('body').css({'position':'absolute', 'left':e.pageX+(rand*2)+'px', 'top':e.pageY+rand+'px'}).animate({'top':'-=50px', 'opacity':'15%', 'font-size': rand+'rem'}, 1500, function(){
                 $(this).remove()
                 });
             })
 
-            function getRandInt(min=1,max=5) {
+            function getRandInt(min=1,max=100) {
                 return Math.floor(Math.random()*(max-min+1)) + min;
             }
            
