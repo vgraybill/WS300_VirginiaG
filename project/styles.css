@@ -96,6 +96,9 @@ body {
 #lilac {
     background: url(img/lilacpotted.png);
 }
+#gardenia {
+    background: url(img/gardeniapotted.png);
+}
 #grow-area {
     font-family: 'Fredoka One', cursive;
     width: 800px;
@@ -204,7 +207,7 @@ p::selection, div::selection, span::selection {
     text-shadow: -2px 0 rgb(129, 136, 156), 0 2px rgb(129, 136, 156), 2px 0 rgb(129, 136, 156), 0 -2px rgb(129, 136, 156); 
 }
 .click {
-    color: rgb(255, 251, 0);
+    color: white;
     font-weight: bold;
     /* text-shadow: 0 0 2px white; */
 }

@@ -682,7 +682,7 @@
 
             $('.plot').on('click', function(e){
                 let rand = getRandInt(1,3)
-                $('<p>').text('•').addClass('click').appendTo('body').css({'position':'absolute', 'left':e.pageX+(rand*2)+'px', 'top':e.pageY+rand+'px'}).animate({'top':'-=50px', 'opacity':'15%', 'font-size': rand+'rem'}, 1500, function(){
+                $('<p>').text('•').addClass('click').appendTo('body').css({'position':'absolute', 'left':e.pageX+(rand*2)+'px', 'top':e.pageY+rand+'px'}).animate({'top':'-=150px', 'opacity':'15%', 'font-size': rand+'rem'}, 1500, function(){
                 $(this).remove()
                 });
             })
