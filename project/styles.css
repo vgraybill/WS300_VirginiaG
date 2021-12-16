@@ -16,15 +16,36 @@ body {
     color : white;
     letter-spacing: .15rem;
     cursor: default;
+    width: 100%;
 }
 .flex{
     display: flex;
 }
+header {
+    width: 100%;
+    text-align: center;
+}
+header img {
+    width: 555px;
+}
+header nav{
+    color: rgb(129, 136, 156);
+    font-size: 1.5rem;
+}
+ul {
+    justify-content: center;
+}
+ul li {
+    padding: 10px 20px 20px
+}
+
+
 
 #game-area {
     width: 1000px;
     height: 700px;
     background:url('img/background.png');
+    background-size: cover;
     margin: 0 auto;
     border-radius: 20px;
 }
@@ -62,6 +83,7 @@ body {
     position: relative;
     top: 50px;
     display: flex;
+    justify-content: center;
 }
 .buyplant {
     width: 100px;
@@ -85,6 +107,7 @@ body {
 }
 .buyplant .info {
     text-align: center;
+    text-shadow: 0 2px rgb(129, 136, 156);
     background-color: transparent;
 }
 #tulip {

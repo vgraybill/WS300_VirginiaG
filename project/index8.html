@@ -381,21 +381,7 @@
                     async function sellWait(){
                      flowerStage = 'url("img/piranhaanimated.png")';
 
-                     let curFrame = 0;
-
-                        function dragonFlap(){
-
-                            const frames = [0, 1, 2, 3],
-                                frameWidth = 160;
-                            let bgPos = -(frameWidth*frames[curFrame]);
-                            curFrame ++
-                            $('.piranha').css({'background-position': bgPos+'px 0px'})
-                            if (curFrame == frames.length) {
-                                curFrame = 0;
-                            }
-                        }
-
-                        setInterval(dragonFlap, 500/1);
+                     upDown($(ele).children('.piranha'));
 
 
                      await wait(1500)
@@ -766,7 +752,7 @@
                 let currPlot = $(this)
                 bonusAmount = 0
                 if (currenttime >= 1200){ //after 15 minutes
-                    amount = amount+10;
+                    amount = amount+100;
                     currPlot.attr('data-amt', amount)
                     bonusAmount = 10
                 } else if (currenttime >= 600){ //after 10 minutes
@@ -813,9 +799,32 @@
             }
            
 
-//make UI toggle next!
-//sparkles when the UI is toggled off?
-//so much fun!
+            function upDown(piranha){
+                //this is the enemy bird that gets passed from createEnemy()
+                if(piranha.frameNum == undefined){
+                    //the bird does not have this property
+                    piranha.frameNum = 0;
+                }else{
+                    piranha.frameNum++;
+                }
+
+                let frames = [0,1,2,3];
+                let frameWidth = 160;
+
+                if(piranha.frameNum > 3){
+                        piranha.frameNum = 0;
+                }
+
+                let bgPos = frameWidth * frames[piranha.frameNum];
+                $(piranha).css({'background-position': bgPos+'px 0px'});
+
+                setTimeout( function(){
+                    upDown(piranha);
+                }, 250)
+                console.log('yes')
+
+
+            }
 
 
     </script>
