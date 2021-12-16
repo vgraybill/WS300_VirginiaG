@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Challenge 5</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 50px auto;
+            box-sizing: border-box;
+            width: 50%;
+            margin: 100px auto;
+            font-size: 2rem;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        .clock {
+            display: flex;
+            color: mediumseagreen;
+            justify-content: center;
+            padding: 25px;
+            border: 3px solid mediumaquamarine;
+            border-radius: 10px;
+
+        }
+        div {
+            padding-left: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock">
+            <div class="hours">00</div>
+            <div class="colon">:</div>
+            <div class="minutes">00</div>
+            <div class="colon">:</div>
+            <div class="seconds">00</div>
+            <div class="meridiem">AM</div>
+    </div>
+    <!-- <input type="number" id="hour-in">:<input type="number" id="minutes-in"><button type="button" id="button">Set Time</button> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+
+        setInterval( function(){
+            let today = new Date();
+
+            // let userHour //= today.getHours(),
+            // let userMinutes //= today.getMinutes();
+
+            // // $('#button').on('click', function(){
+            // //     userHour = $('#hour-in').val();
+            // //     userMinutes = $('#minutes-in').val();
+            // //     today.setHours(userHour,userMinutes)
+            // // }) not working
+
+            //today.setHours(00, 9)
+
+            let cHour = today.getHours(),
+                cMins = today.getMinutes(),
+                cSecs = today.getSeconds(),
+                ampm = '';
+
+            if(cHour > 11){
+                ampm ='PM'
+                $('.clock').css({'background':'#abffff'})
+            } else {
+                ampm = 'AM'
+                $('.clock').css({'background':'lightgoldenrodyellow', 'color':'burlywood', 'border':'3px solid rosybrown'})
+            }
+
+            if (cHour > 11){
+                cHour -=12;
+            }
+
+            if(cHour == 0){
+                cHour=12;
+            }
+
+            if (cHour < 10){
+                cHour = '0'+cHour;
+            }
+            if (cMins < 10){
+                cMins = '0'+cMins;
+            }
+            if (cSecs < 10){
+                cSecs = '0'+cSecs;
+            }
+            
+
+            $('.hours').text(cHour);
+            $('.minutes').text(cMins);
+            $('.seconds').text(cSecs);
+            $('.meridiem').text(ampm);
+
+
+
+        }, 1000);
+
+
+
+
+    </script>
+</body>
+</html>

@@ -99,6 +99,9 @@ body {
 #gardenia {
     background: url(img/gardeniapotted.png);
 }
+#piranha {
+    background: url(img/piranhapotted.png);
+}
 #grow-area {
     font-family: 'Fredoka One', cursive;
     width: 800px;
@@ -174,6 +177,12 @@ body {
     margin: 0 auto;
 }
 .gardenia {
+    background: url('img/gardeniaplot.png');
+    width: 150px;
+    height: 155px;
+    margin: 0 auto;
+}
+.piranha {
     background: url('img/gardeniaplot.png');
     width: 150px;
     height: 155px;

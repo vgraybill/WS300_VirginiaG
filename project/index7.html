@@ -379,7 +379,25 @@
 
                 if(amtText >= 100){
                     async function sellWait(){
-                     flowerStage = 'url("img/piranhafull.png")';
+                     flowerStage = 'url("img/piranhaanimated.png")';
+
+                     let curFrame = 0;
+
+                        function dragonFlap(){
+                            clearInterval()
+                            const frames = [0, 1, 2, 3],
+                                frameWidth = 160;
+                            let bgPos = -(frameWidth*frames[curFrame]);
+                            curFrame ++
+                            $('.piranha').css({'background-position': bgPos+'px 0px'})
+                            if (curFrame == frames.length) {
+                                curFrame = 0;
+                            }
+                        }
+
+                        setInterval(dragonFlap, 1000/2);
+
+
                      await wait(1500)
                      $(ele).find('.sell').css({'visibility':'unset'})
                     }
@@ -747,7 +765,11 @@
                 $(this).attr('data-amt', amount)
                 let currPlot = $(this)
                 bonusAmount = 0
-                if (currenttime >= 600){ //after 10 minutes
+                if (currenttime >= 1200){ //after 15 minutes
+                    amount = amount+10;
+                    currPlot.attr('data-amt', amount)
+                    bonusAmount = 10
+                } else if (currenttime >= 600){ //after 10 minutes
                     amount = amount+5;
                     currPlot.attr('data-amt', amount)
                     bonusAmount = 5
