@@ -384,7 +384,7 @@
                      let curFrame = 0;
 
                         function dragonFlap(){
-                            clearInterval()
+
                             const frames = [0, 1, 2, 3],
                                 frameWidth = 160;
                             let bgPos = -(frameWidth*frames[curFrame]);
@@ -395,7 +395,7 @@
                             }
                         }
 
-                        setInterval(dragonFlap, 1000/2);
+                        setInterval(dragonFlap, 500/1);
 
 
                      await wait(1500)
