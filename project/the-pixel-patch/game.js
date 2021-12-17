@@ -1,101 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="styles.css" rel="stylesheet" type="text/css">
-    <link href="reset.css" rel="stylesheet" type="text/css">
-   
-    <title>The Pixel Patch</title>
-</head>
-<body>
-    <header>
-        <!-- Navigation and logo live here -->
-        <img src="img/logolong.png">
-        <nav>
-            <ul class="flex">
-                <li>Home</li>
-                <li>Game Changes</li>
-                <li>About</li>
-        </ul>
-    </nav>
-    </header>
 
-    <main draggable="false">
-        <!-- The game lives here -->
-        <section id="game-area">
-            <!-- this is the main game stage -->
-            <div class="flex" id="ui">
-                <!-- this is the ui will be -->                
-                <div class="flex" id="universal-timer">
-                    <!-- how much time has passed since the game loaded -->
-                    <img src="img/timericon.png">
-                    <p>-:--:--</p>
-                </div>
-                <div class="flex" id="player-coins">
-                    <!-- how much money the player has -->
-                    <img src="img/coinicon.png">
-                    <p>---</p>
-                </div>
-                <!-- which game mode the game is in currently, starts in grow, can be switched to .shop-mode -->
-                <div id="game-mode" class="buy-mode flex">
-                    <img src="img/enabled.png">
-                    <p>Hide UI</p>
-                </div>
+( function(){
 
-            </div>
 
-            <div id="buy-area">
-                <div class="buyplant">
-                    <div id="daisy"></div>
-                    <div class="info">
-                        <p><img src="img/coinicon.png">100</p>
-                    </div>
-                </div>
-               
-                <div class="buyplant">
-                    <div id="tulip"></div>
-                    <div class="info">
-                        <p><img src="img/coinicon.png">300</p>
-                    </div>
-                </div>
-                <div class="buyplant">
-                    <div id="lilac"></div>
-                    <div class="info">
-                        <p><img src="img/coinicon.png">600</p>
-                    </div>
-                </div>
-                <div class="buyplant">
-                    <div id="gardenia"></div>
-                    <div class="info">
-                        <p><img src="img/coinicon.png">1000</p>
-                    </div>
-                </div>
-                <div class="buyplant">
-                    <div id="piranha"></div>
-                    <div class="info">
-                        <p><img src="img/coinicon.png">1500</p>
-                    </div>
-                </div>
+'use strict';
+        //sounds go here
+        const ambiance = new Audio('mp3/ambiance.mp3'),
+              tap = new Audio('mp3/tap.mp3'),
+              fullgrownflower = new Audio('mp3/fullgrown.mp3'),
+              plant = new Audio('mp3/plant.mp3'),
+              click = new Audio('mp3/click.mp3');
 
-            </div>
+            if (typeof ambiance.loop == 'boolean') {
+                ambiance.loop = true;
+            }
+            else {
+                ambiance.addEventListener('ended', function() {
+                    this.currentTime = 0;
+                    this.play();
+                }, false);
+            }       
 
-            <div draggable="false" id="grow-area">
-                <!-- this is the growing patch -->
-               
-                
-            </div>
 
-            <div class="bottom-ui flex">
-                <div class="total-clicks"><span>---</span> Clicks</div>
-                <div class="click-multiplier">+<span>0</span> Grow Bonus</div>
-            </div>
-        </section>
-    </main>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-        'use strict';
+
+
+        let speedX = 0;
+        let speedY = 0;
+        let dir = 'right';
+
+        function panBackground() {
+            ambiance.play()
+            if(dir == 'right') {
+                speedX -= .25;
+            } else { 
+                speedX += .25;
+            }
+            $('#cloudcover').css({'background-position': speedX+'px '+speedY+'px'});
+            requestAnimationFrame(panBackground)
+        }
+        panBackground();
+        
+
+
         function wait(ms=0){
             return new Promise( (resolve) => {
                 setTimeout(resolve,ms)
@@ -167,13 +112,16 @@
     if (playerCoins == null){
         playerCoins = 500*1
     }
+    if (totalClicks == null){
+        totalClicks = 0*1
+    }
 
 
         
     $('#game-mode').on('click', function(){
         if($('#game-mode').hasClass('buy-mode')) {
             $('#game-mode').html('<img src="img/disabled.png"><p></p>')
-            $('#game-mode p').text('Show UI')
+            $('#game-mode p').text('Show Shop')
             $('.econ-ui').css({'visibility':'hidden'})
             $('.growth').css({'opacity':'40%'})
             $('#game-mode').removeClass('buy-mode')
@@ -181,7 +129,7 @@
         }
         else if ($('#game-mode').hasClass('grow-mode')){
             $('#game-mode').html('<img src="img/enabled.png"><p></p>')
-            $('#game-mode p').text('Hide UI')
+            $('#game-mode p').text('Hide Shop')
             $('.econ-ui').css({'visibility':'visible'})
             $('.growth').css({'opacity':'100%'})
             $('#game-mode').removeClass('grow-mode')
@@ -228,6 +176,7 @@
                      flowerStage = 'url("img/daisyfull.png")';
                      await wait(1500)
                      $(ele).find('.sell').css({'visibility':'unset'})
+                     fullgrownflower.play()
                     }
                     sellWait();
                  }else if(amtText <= 99 && amtText >= 66){
@@ -266,6 +215,7 @@
                      flowerStage = 'url("img/tulipfull.png")';
                      await wait(1500)
                      $(ele).find('.sell').css({'visibility':'unset'})
+                     fullgrownflower.play()
                     }
                     sellWait();
                  }else if(amtText <= 99 && amtText >= 66){
@@ -305,6 +255,7 @@
                      flowerStage = 'url("img/lilacfull.png")';
                      await wait(1500)
                      $(ele).find('.sell').css({'visibility':'unset'})
+                     fullgrownflower.play()
                     }
                     sellWait();
                  }else if(amtText <= 99 && amtText >= 66){
@@ -344,6 +295,7 @@
                      flowerStage = 'url("img/gardeniafull.png")';
                      await wait(1500)
                      $(ele).find('.sell').css({'visibility':'unset'})
+                     fullgrownflower.play()
                     }
                     sellWait();
                  }else if(amtText <= 99 && amtText >= 66){
@@ -386,10 +338,13 @@
 
                      await wait(1500)
                      $(ele).find('.sell').css({'visibility':'unset'})
+                     
                     }
+                    
                     sellWait();
                  }else if(amtText <= 99 && amtText >= 66){
                      flowerStage = 'url("img/piranha3.png")';
+                     
                  }else if (amtText >= 35 && amtText < 66){
                      flowerStage = 'url("img/piranha2.png")';
                  } else if(amtText > 0 && amtText < 35 ) {
@@ -411,6 +366,7 @@
                 $('.buyplant').css({'visibility':'visible'})
                 let theID = $(this).parents('.plot').attr('id');
                 $(this).css({'visibility':'hidden'})
+                tap.play();
 
                 // if ($('.buyplant').css({'visibility':'visible'})){
                     
@@ -438,7 +394,7 @@
                             }, 500);
 
                         buyDaisy(jQEle[0]);
-                        
+                        plant.play();
                         playerCoins=playerCoins-100;
                         $('#player-coins p').text(playerCoins)
                         $('#daisy').off('click');
@@ -490,6 +446,7 @@
                             }, 500);
 
                         buyTulip(jQEle[0]);
+                        plant.play();
                         playerCoins=playerCoins-300;
                         $('#player-coins p').text(playerCoins)
                         $('#daisy').off('click');
@@ -537,6 +494,7 @@
                     }, 500);
 
                 buyLilac(jQEle[0]);
+                plant.play();
                 playerCoins=playerCoins-600;
                 $('#player-coins p').text(playerCoins)
                 $('#daisy').off('click');
@@ -586,6 +544,7 @@
                     }, 500);
 
                 buyGardenia(jQEle[0]);
+                plant.play();
                 playerCoins=playerCoins-1000;
                 $('#player-coins p').text(playerCoins)
                 $('#daisy').off('click');
@@ -630,11 +589,13 @@
                         clearInterval(timer);
                         jQEle.removeClass('planted')
                         jQEle.addClass('full-grown-piranha')
+                        fullgrownflower.play()
                     }
                     piranhaGrowth(jQEle[0])
                     }, 500);
 
                 buyPiranha(jQEle[0]);
+                plant.play();
                 playerCoins=playerCoins-1000;
                 $('#player-coins p').text(playerCoins)
                 $('#daisy').off('click');
@@ -647,7 +608,7 @@
             } else {
                 let jQEle = $('#'+theID)
                 let rand = getRandInt(1,5)
-                console.log(jQEle)
+                
                 jQEle.append('<p class="alert">You need more coins!</p>')
                 $('.alert').css({'top':(getRandInt(2,7)*20)+'px'})
                 $('.alert').animate({'top':'-=50px', 'opacity':'15%'}, 1500, function(){
@@ -674,6 +635,8 @@
             $('.sell').on('click dblclick',  function (e){
                 let theID = $(this).parents('.plot').attr('id'),
                     jQEle = '#'+theID;
+                    tap.play();
+                    e.stopPropagation()
 
 
 
@@ -740,6 +703,9 @@
 
 
             $('.plot').on('click', function(ele){
+                console.log(ele)
+                if ($(ele.currentTarget).hasClass('planted')){
+                
                 let amount = $(this).attr('data-amt')
                 let goalAmt = ($(this).attr('data-goal')*1)
                 let amtText = Math.round(amount/goalAmt*100)
@@ -751,8 +717,12 @@
                 $(this).attr('data-amt', amount)
                 let currPlot = $(this)
                 bonusAmount = 0
-                if (currenttime >= 1200){ //after 15 minutes
-                    amount = amount+100;
+                if (currenttime >= 3600){ //after 1 hour
+                    amount = amount+30;
+                    currPlot.attr('data-amt', amount)
+                    bonusAmount = 30
+                }else if (currenttime >= 1200){ //after 20 minutes
+                    amount = amount+10;
                     currPlot.attr('data-amt', amount)
                     bonusAmount = 10
                 } else if (currenttime >= 600){ //after 10 minutes
@@ -770,13 +740,21 @@
                     bonusAmount = 1
                 }
                 $('.click-multiplier span').text(bonusAmount)
+            }
+                
             })
 
-                if (currenttime >= 600){ //after 5 minutes
+                if (currenttime >= 3600){ //after 1 hour
+                    bonusAmount = 30
+                    $('.click-multiplier span').text(bonusAmount)
+                } else if (currenttime >= 1200){ //after 20 minutes
+                    bonusAmount = 10
+                    $('.click-multiplier span').text(bonusAmount)
+                } else if (currenttime >= 600){ //after 10 minutes
                     bonusAmount = 5
                     $('.click-multiplier span').text(bonusAmount)
                 } 
-                else if (currenttime >= 300){ //after 10 minutes
+                else if (currenttime >= 300){ //after 5 minutes
                     bonusAmount = 3
                     $('.click-multiplier span').text(bonusAmount)
                 } else {
@@ -788,11 +766,16 @@
 
 
             $('.plot').on('click', function(e){
+                if ($(e.currentTarget).hasClass('planted')){
                 let rand = getRandInt(1,3)
+                click.play();
                 $('<p>').text('•').addClass('click').appendTo('body').css({'position':'absolute', 'left':e.pageX+(rand*2)+'px', 'top':e.pageY+rand+'px'}).animate({'top':'-=150px', 'opacity':'15%', 'font-size': rand+'rem'}, 1500, function(){
                 $(this).remove()
                 });
+                e.stopPropagation()
+            }
             })
+            
 
             function getRandInt(min=1,max=100) {
                 return Math.floor(Math.random()*(max-min+1)) + min;
@@ -821,12 +804,9 @@
                 setTimeout( function(){
                     upDown(piranha);
                 }, 250)
-                console.log('yes')
+                
 
 
             }
 
-
-    </script>
-</body>
-</html>
+        })();

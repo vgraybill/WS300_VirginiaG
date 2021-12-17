@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet" type="text/css">
+    <link href="reset.css" rel="stylesheet" type="text/css">
+   
+    <title>The Pixel Patch</title>
+</head>
+<body>
+    <header>
+        <!-- Navigation and logo live here -->
+        <img src="img/logolong.png">
+        <nav>
+            <ul class="flex">
+                <li>Home</li>
+                <li>Game Changes</li>
+                <li>About</li>
+        </ul>
+    </nav>
+    </header>
+
+    <main draggable="false">
+        <!-- The game lives here -->
+        
+        <section id="game-area">
+            <div id="cloudcover"></div>
+            <!-- this is the main game stage -->
+            <div class="flex" id="ui">
+                <!-- this is the ui will be -->                
+                <div class="flex" id="universal-timer">
+                    <!-- how much time has passed since the game loaded -->
+                    <img src="img/timericon.png">
+                    <p>-:--:--</p>
+                </div>
+                <div class="flex" id="player-coins">
+                    <!-- how much money the player has -->
+                    <img src="img/coinicon.png">
+                    <p>---</p>
+                </div>
+                <!-- which game mode the game is in currently, starts in grow, can be switched to .shop-mode -->
+                
+                <div id="game-mode" class="buy-mode flex">
+                    <img src="img/enabled.png">
+                    <p>Hide Shop</p>
+                </div>
+
+            </div>
+
+            <div id="buy-area">
+                <div class="buyplant">
+                    <div id="daisy"></div>
+                    <div class="info">
+                        <p><img src="img/coinicon.png">100</p>
+                    </div>
+                </div>
+               
+                <div class="buyplant">
+                    <div id="tulip"></div>
+                    <div class="info">
+                        <p><img src="img/coinicon.png">300</p>
+                    </div>
+                </div>
+                <div class="buyplant">
+                    <div id="lilac"></div>
+                    <div class="info">
+                        <p><img src="img/coinicon.png">600</p>
+                    </div>
+                </div>
+                <div class="buyplant">
+                    <div id="gardenia"></div>
+                    <div class="info">
+                        <p><img src="img/coinicon.png">1000</p>
+                    </div>
+                </div>
+                <div class="buyplant">
+                    <div id="piranha"></div>
+                    <div class="info">
+                        <p><img src="img/coinicon.png">1500</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div draggable="false" id="grow-area">
+                <!-- this is the growing patch -->
+               
+                
+            </div>
+
+            <div class="bottom-ui flex">
+                <div class="total-clicks"><span>---</span> Clicks</div>
+                <div class="click-multiplier">+<span>0</span> Grow Bonus</div>
+            </div>
+        </section>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="game.js"></script>
+</body>
+</html>
